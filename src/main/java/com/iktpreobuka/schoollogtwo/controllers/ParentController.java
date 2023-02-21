@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
+import com.iktpreobuka.schoollogtwo.services.ParentService;
 
 @RestController
 @RequestMapping(path = "/api/v1/parents")
@@ -19,6 +19,8 @@ public class ParentController {
 
 	@Autowired
 	private ParentRepository parentRepository;
+	@Autowired
+	private ParentService parentService;
 	
 	@GetMapping
 	public ResponseEntity<?> allParents() {
@@ -27,15 +29,6 @@ public class ParentController {
 	
 	@PostMapping
 	public ResponseEntity<?> createParent(@RequestBody ParentDTO newParent) {
-		ParentEntity parent = new ParentEntity();
-		parent.setFirstName(newParent.getFirstName());
-		parent.setLastName(newParent.getLastName());
-		parent.setUsername(newParent.getUsername());
-		parent.setPassword(newParent.getPassword());
-		parent.setEmail(newParent.getEmail());
-		
-		parentRepository.save(parent);
-		
-		return new ResponseEntity<>(parent, HttpStatus.CREATED);
+		return new ResponseEntity<>(parentService.createParent(newParent), HttpStatus.CREATED);
 	}
 }

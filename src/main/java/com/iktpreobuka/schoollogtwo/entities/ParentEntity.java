@@ -10,15 +10,20 @@ import javax.persistence.Table;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "parent")
 @SQLDelete(sql = "UPDATE parent SET deleted = true WHERE user_id=? AND version=?")
 @Where(clause = "deleted = false")
+@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class ParentEntity extends UserEntity{
 	
 	@Column(name = "email")
 	private String email;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
 	List<ParentStudentEntity> parentStudent;
 
