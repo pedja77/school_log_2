@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE user_id=? AND version=?")
+@Where(clause = "deleted = false")
 public class UserEntity {
 
 	@Id

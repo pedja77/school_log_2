@@ -1,11 +1,13 @@
 package com.iktpreobuka.schoollogtwo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
 
+@Service
 public class ParentServiceImpl implements ParentService {
 	
 	@Autowired

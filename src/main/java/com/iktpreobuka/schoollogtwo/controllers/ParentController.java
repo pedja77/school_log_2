@@ -24,7 +24,7 @@ public class ParentController {
 	
 	@GetMapping
 	public ResponseEntity<?> allParents() {
-		return new ResponseEntity<>(parentRepository.findByDeleted(false), HttpStatus.OK);
+		return new ResponseEntity<>(parentRepository.findAll(), HttpStatus.OK);
 	}
 	
 	@PostMapping

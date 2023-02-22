@@ -41,8 +41,9 @@ public class StudentServiceImpl implements StudentService {
 		ParentStudentEntity parentStudent = new ParentStudentEntity();
 		parentStudent.setParent(parent);
 		parentStudent.setStudent(student);
-		student.getParentStudent().add(parentStudent);
+		student.getParentStudent().add(parentStudent); 
 		
+		// Ici  ovako preko studenta ili, za probu ne snimati studenta nego parent student????
 		return studentRepository.save(student);
 	}
 

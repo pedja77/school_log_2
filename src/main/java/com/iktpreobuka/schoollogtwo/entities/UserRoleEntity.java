@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -34,8 +35,11 @@ public class UserRoleEntity {
 	@Column(name = "role_name")
 	private String roleName;
 	
-	@Column
-	private Boolean deleted;// = Boolean.FALSE;
+	@Column(name = "deleted")
+	private Boolean deleted;
+	
+	@Version
+	private Integer version;
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH}, mappedBy = "role")
