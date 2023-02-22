@@ -1,1 +1,1 @@
-# School Logging REST API App
+# Electronic Grade Book REST API
