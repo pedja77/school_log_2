@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,5 +52,15 @@ public class ParentController {
 	@PostMapping
 	public ResponseEntity<?> createParent(@Valid @RequestBody ParentDTO newParent) {
 		return new ResponseEntity<>(parentService.createParent(newParent), HttpStatus.CREATED);
+	}
+	
+	@PutMapping(path = "/{id}")
+	public ResponseEntity<?> updateParent(@PathVariable Integer id,  @RequestBody ParentDTO updatedParent) {
+		return new ResponseEntity<>(parentService.updateParent(id, updatedParent), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<?> deleteParent(@PathVariable Integer id) {
+		return new ResponseEntity<>(parentService.deleteParent(id), HttpStatus.OK);
 	}
 }
