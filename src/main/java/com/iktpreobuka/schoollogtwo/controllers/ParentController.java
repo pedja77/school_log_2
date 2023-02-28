@@ -5,7 +5,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
 import com.iktpreobuka.schoollogtwo.services.ParentService;
+import com.iktpreobuka.schoollogtwo.util.UserCustomValidator;
 
 @RestController
 @RequestMapping(path = "/api/v1/parents")
@@ -24,6 +28,14 @@ public class ParentController {
 	private ParentRepository parentRepository;
 	@Autowired
 	private ParentService parentService;
+	
+	@Autowired
+	UserCustomValidator userValidator;
+	
+	@InitBinder
+	protected void initBinder(final WebDataBinder binder) {
+		binder.addValidators(userValidator);
+	}
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getParentById(@PathVariable Integer id) {

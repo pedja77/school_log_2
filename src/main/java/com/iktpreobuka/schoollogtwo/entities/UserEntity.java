@@ -69,6 +69,7 @@ public class UserEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "role")
+	@NotNull(message = "Role does not exist.")
 	protected UserRoleEntity role;
 
 	public UserEntity() {
