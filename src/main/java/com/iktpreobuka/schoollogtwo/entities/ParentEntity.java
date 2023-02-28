@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class ParentEntity extends UserEntity{
 	
 	@Column(name = "email")
+	@NotNull(message = "Email must be provided.")
+	@Email(message = "Email must have valid format.")
 	private String email;
 
 	@JsonIgnore

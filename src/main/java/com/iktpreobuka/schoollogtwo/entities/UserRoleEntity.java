@@ -1,5 +1,6 @@
 package com.iktpreobuka.schoollogtwo.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,6 +43,14 @@ public class UserRoleEntity {
 	
 	@Version
 	private Integer version;
+	
+	@Column(name = "created")
+	@CreationTimestamp
+	private LocalDateTime createdOn;
+	
+	@Column(name = "updated")
+	@UpdateTimestamp
+	private LocalDateTime updatedOn;
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH}, mappedBy = "role")

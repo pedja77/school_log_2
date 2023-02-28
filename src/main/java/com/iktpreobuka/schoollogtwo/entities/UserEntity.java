@@ -1,5 +1,7 @@
 package com.iktpreobuka.schoollogtwo.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,20 +37,32 @@ public class UserEntity {
 	protected Integer id;
 	
 	@Column(name = "first_name")
+	@NotNull(message = "First name must be provided.")
 	protected String firstName;
 	
-	@Column(name = "last_name") 
+	@Column(name = "last_name")
+	@NotNull(message = "Last name must be provided.")
 	protected String lastName;
 	
 	@Column(name = "username")
+	@NotNull(message = "Username must be provided.")
 	protected String username;
 	
 	@JsonIgnore
 	@Column(name = "password")
+	@NotNull(message = "Password must be provided.")
 	protected String password;
 	
 	@Version
 	protected Integer version;
+	
+	@Column(name = "created")
+	@CreationTimestamp
+	private LocalDateTime createdOn;
+	
+	@Column(name = "updated")
+	@UpdateTimestamp
+	private LocalDateTime updatedOn;
 	
 	@Column(name = "deleted")
 	protected Boolean deleted;

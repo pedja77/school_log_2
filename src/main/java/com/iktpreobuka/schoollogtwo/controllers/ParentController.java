@@ -1,5 +1,7 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class ParentController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createParent(@RequestBody ParentDTO newParent) {
+	public ResponseEntity<?> createParent(@Valid @RequestBody ParentDTO newParent) {
 		return new ResponseEntity<>(parentService.createParent(newParent), HttpStatus.CREATED);
 	}
 }
