@@ -1,6 +1,8 @@
 package com.iktpreobuka.schoollogtwo.entities;
 
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +26,7 @@ public class ParentEntity extends UserEntity{
 	private String email;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	List<ParentStudentEntity> parentStudent;
 
 	public ParentEntity() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
@@ -39,15 +40,17 @@ public class StudentServiceImpl implements StudentService {
 		ParentEntity parent = parentRepository.findById(parentId).get();
 		StudentEntity student = studentRepository.findById(studentId).get();
 		ParentStudentEntity parentStudent = new ParentStudentEntity();
+
 		parentStudent.setParent(parent);
 		parentStudent.setStudent(student);
-		student.getParentStudent().add(parentStudent); 
 		
-		// Ici  ovako preko studenta ili, za probu ne snimati studenta nego parent student????
-		return studentRepository.save(student);
+		parentStudentRepository.save(parentStudent);
+		
+		return student;
 	}
 
 	@Override
+	@Transactional
 	public StudentEntity deleteStudent(Integer studentId) {
 		StudentEntity student = studentRepository.findById(studentId).get();
 		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByStudent(student);
@@ -55,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
 		for (ParentStudentEntity ps: parentStudents) {
 			parentStudentRepository.delete(ps);
 			ps.getParent().getParentStudent().remove(ps);
-			if (!parentStudentRepository.existsByParent(ps.getParent()))
+			if (ps.getParent().getParentStudent().size() == 0)
 				parentRepository.delete(ps.getParent());
 		}
 		
