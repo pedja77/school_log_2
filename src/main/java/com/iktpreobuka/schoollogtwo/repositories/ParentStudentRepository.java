@@ -11,5 +11,6 @@ import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
 public interface ParentStudentRepository extends CrudRepository<ParentStudentEntity, Integer> {
 
 	public List<ParentStudentEntity> findByStudent(StudentEntity student);
+	public List<ParentStudentEntity> findByParent(ParentEntity parent);
 	public boolean existsByParent(ParentEntity parent);
 }

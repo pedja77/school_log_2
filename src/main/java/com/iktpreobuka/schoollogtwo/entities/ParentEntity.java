@@ -31,7 +31,7 @@ public class ParentEntity extends UserEntity{
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-	List<ParentStudentEntity> parentStudent;
+	List<ParentStudentEntity> students;
 
 	public ParentEntity() {
 		super();
@@ -45,12 +45,12 @@ public class ParentEntity extends UserEntity{
 		this.email = email;
 	}
 
-	public List<ParentStudentEntity> getParentStudent() {
-		return parentStudent;
+	public List<ParentStudentEntity> getStudents() {
+		return students;
 	}
 
-	public void setParentStudent(List<ParentStudentEntity> parentStudent) {
-		this.parentStudent = parentStudent;
+	public void setStudents(List<ParentStudentEntity> students) {
+		this.students = students;
 	}
 	
 	

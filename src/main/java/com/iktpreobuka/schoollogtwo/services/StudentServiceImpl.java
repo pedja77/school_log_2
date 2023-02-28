@@ -55,10 +55,12 @@ public class StudentServiceImpl implements StudentService {
 		StudentEntity student = studentRepository.findById(studentId).get();
 		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByStudent(student);
 		
+		// Delete all the references from student to parent on both sides and also delete parent if he doesn't have any more
+		// students related to him
 		for (ParentStudentEntity ps: parentStudents) {
 			parentStudentRepository.delete(ps);
-			ps.getParent().getParentStudent().remove(ps);
-			if (ps.getParent().getParentStudent().size() == 0)
+			ps.getParent().getStudents().remove(ps);
+			if (ps.getParent().getStudents().size() == 0)
 				parentRepository.delete(ps.getParent());
 		}
 		
