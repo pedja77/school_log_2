@@ -24,6 +24,9 @@ public class TeacherEntity extends UserEntity {
 	
 	@OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<TeacherStudentEntity> students;
+	
+	@OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+	private List<TeacherSubjectEntity> subjects;
 
 	public TeacherEntity() {
 		super();
@@ -43,6 +46,14 @@ public class TeacherEntity extends UserEntity {
 
 	public void setStudents(List<TeacherStudentEntity> students) {
 		this.students = students;
+	}
+
+	public List<TeacherSubjectEntity> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<TeacherSubjectEntity> subjects) {
+		this.subjects = subjects;
 	}
 	
 	
