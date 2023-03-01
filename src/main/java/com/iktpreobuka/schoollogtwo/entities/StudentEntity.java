@@ -36,6 +36,9 @@ public class StudentEntity extends UserEntity {
 	@JsonIgnore
 	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<TeacherStudentEntity> teachers;
+	
+	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+	private List<TeacherSubjectEntity> subjects;
 
 	public StudentEntity() {
 		super();

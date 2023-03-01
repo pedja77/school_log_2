@@ -54,6 +54,9 @@ public class SubjectEntity {
 	
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<TeacherSubjectEntity> teachers;
+	
+	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+	private List<TeacherSubjectEntity> students;
 
 	public SubjectEntity() {
 		super();
