@@ -154,6 +154,22 @@ public class UserEntity {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
+
+	public LocalDateTime getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(LocalDateTime createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public LocalDateTime getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(LocalDateTime updatedOn) {
+		this.updatedOn = updatedOn;
+	}
 	
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,7 +39,11 @@ public class StudentEntity extends UserEntity {
 	private List<TeacherStudentEntity> teachers;
 	
 	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-	private List<TeacherSubjectEntity> subjects;
+	private List<StudentSubjectEntity> subjects;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+	//@JoinColumn(name = "teacher")
+	private GradeEntity grade;
 
 	public StudentEntity() {
 		super();
@@ -66,6 +71,22 @@ public class StudentEntity extends UserEntity {
 
 	public void setTeachers(List<TeacherStudentEntity> teachers) {
 		this.teachers = teachers;
+	}
+
+	public List<StudentSubjectEntity> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<StudentSubjectEntity> subjects) {
+		this.subjects = subjects;
+	}
+
+	public GradeEntity getGrade() {
+		return grade;
+	}
+
+	public void setGrade(GradeEntity grade) {
+		this.grade = grade;
 	}
 	
 	

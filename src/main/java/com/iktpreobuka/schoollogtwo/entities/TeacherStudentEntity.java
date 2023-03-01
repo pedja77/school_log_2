@@ -34,4 +34,36 @@ public class TeacherStudentEntity {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "student")
 	private StudentEntity student;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public TeacherEntity getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(TeacherEntity teacher) {
+		this.teacher = teacher;
+	}
+
+	public StudentEntity getStudent() {
+		return student;
+	}
+
+	public void setStudent(StudentEntity student) {
+		this.student = student;
+	}
 }
