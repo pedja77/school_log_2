@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -43,7 +44,7 @@ public class StudentEntity extends UserEntity {
 	private List<StudentSubjectEntity> subjects;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-	//@JoinColumn(name = "teacher")
+	@JoinColumn(name = "grade")
 	private GradeEntity grade;
 
 	public StudentEntity() {

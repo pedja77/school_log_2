@@ -39,7 +39,7 @@ public class SubjectEntity {
 	private Integer weeklyFund;
 	
 	@Version
-	protected Integer version;
+	private Integer version;
 	
 	@Column(name = "created")
 	@CreationTimestamp
@@ -52,7 +52,7 @@ public class SubjectEntity {
 	private LocalDateTime updatedOn;
 	
 	@Column(name = "deleted")
-	protected Boolean deleted;
+	private Boolean deleted;
 	
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<TeacherSubjectEntity> teachers;
@@ -61,7 +61,7 @@ public class SubjectEntity {
 	private List<TeacherSubjectEntity> students;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-	//@JoinColumn(name = "teacher")
+	@JoinColumn(name = "grade")
 	private GradeEntity grade;
 	
 	public SubjectEntity() {
