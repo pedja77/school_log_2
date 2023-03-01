@@ -1,11 +1,18 @@
 package com.iktpreobuka.schoollogtwo.services;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iktpreobuka.schoollogtwo.entities.TeacherEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.TeachersCollectionDTO;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherRepository;
+import com.iktpreobuka.schoollogtwo.repositories.TeacherStudentRepository;
+import com.iktpreobuka.schoollogtwo.repositories.TeacherSubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
 
 @Service
@@ -15,16 +22,20 @@ public class TeacherServiceImpl implements TeacherService {
 	private UserRoleRepository roleRepository;
 	@Autowired
 	private TeacherRepository teacherRepository;
+	@Autowired
+	private TeacherStudentRepository tsRepo;
+	@Autowired
+	private TeacherSubjectRepository tSubRepo;
 
 	@Override
-	public TeacherEntity createTeacher(TeacherDTO updatedTeacher) {
+	public TeacherEntity createTeacher(TeacherDTO newTeacher) {
 		TeacherEntity teacher = new TeacherEntity();
-		teacher.setFirstName(updatedTeacher.getFirstName());
-		teacher.setLastName(updatedTeacher.getLastName());
-		teacher.setUsername(updatedTeacher.getUsername());
-		teacher.setPassword(updatedTeacher.getPassword());
-		teacher.setWeeklyClasses(updatedTeacher.getWeeklyClasses());
-		teacher.setRole(roleRepository.findByRoleName(updatedTeacher.getRole()));
+		teacher.setFirstName(newTeacher.getFirstName());
+		teacher.setLastName(newTeacher.getLastName());
+		teacher.setUsername(newTeacher.getUsername());
+		teacher.setPassword(newTeacher.getPassword());
+		teacher.setWeeklyClasses(newTeacher.getWeeklyClasses());
+		teacher.setRole(roleRepository.findByRoleName(newTeacher.getRole()));
 		
 		return teacherRepository.save(teacher);
 	}
@@ -42,16 +53,32 @@ public class TeacherServiceImpl implements TeacherService {
 			teacher.setPassword(updatedTeacher.getPassword());
 		if (updatedTeacher.getWeeklyClasses() != null && !teacher.getWeeklyClasses().equals(updatedTeacher.getWeeklyClasses()))
 			teacher.setWeeklyClasses(updatedTeacher.getWeeklyClasses());
-		if (updatedTeacher.getRole() != null && !teacher.getRole().equals(roleRepository.findByRoleName(updatedTeacher.getRole())))
-			teacher.setRole(roleRepository.findByRoleName(updatedTeacher.getRole()));
+//		if (updatedTeacher.getRole() != null && !teacher.getRole().equals(roleRepository.findByRoleName(updatedTeacher.getRole())))
+//			teacher.setRole(roleRepository.findByRoleName(updatedTeacher.getRole()));
 		
 		return teacherRepository.save(teacher);
 	}
 
 	@Override
+	@Transactional
 	public TeacherEntity deleteTeacher(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		TeacherEntity teacher = teacherRepository.findById(id).orElseThrow();
+		tsRepo.deleteAll(teacher.getStudents());
+		tSubRepo.deleteAll(teacher.getSubjects());
+		
+		teacherRepository.delete(teacher);
+		
+		return teacher;
+	}
+
+	@Override
+	@Transactional
+	public String bulkCreate(TeachersCollectionDTO teachers) {
+		
+		for (TeacherDTO t: teachers.getTeachers()) {
+			createTeacher(t);
+		}
+		return "Alles gut";
 	}
 
 }

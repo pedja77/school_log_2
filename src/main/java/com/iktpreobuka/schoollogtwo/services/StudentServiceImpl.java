@@ -10,6 +10,7 @@ import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
+import com.iktpreobuka.schoollogtwo.repositories.GradeRepository;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.ParentStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
@@ -23,16 +24,19 @@ public class StudentServiceImpl implements StudentService {
 	private ParentRepository parentRepository;
 	@Autowired
 	private ParentStudentRepository parentStudentRepository;
+	@Autowired
+	private GradeRepository gradeRepository;
 	
 	@Override
-	public StudentEntity createStudent(StudentDTO newStudent) {
+	public StudentDTO createStudent(StudentDTO newStudent) {
 		StudentEntity student = new StudentEntity();
 		student.setFirstName(newStudent.getFirstName());
 		student.setLastName(newStudent.getLastName());
 		student.setUsername(newStudent.getUsername());
 		student.setPassword(newStudent.getPassword());
+		studentRepository.save(student);
 		
-		return studentRepository.save(student);
+		return newStudent;
 	}
 
 	@Override
@@ -66,6 +70,27 @@ public class StudentServiceImpl implements StudentService {
 		
 		studentRepository.delete(student);
 		return student;
+	}
+
+	@Override
+	// Doesn't update students role, what's the purpose?
+	public StudentDTO updateStudent(Integer id, StudentDTO updatedStudent) {
+		StudentEntity student = studentRepository.findById(id).orElseThrow();
+		if (updatedStudent.getFirstName() != null && !student.getFirstName().equals(updatedStudent.getFirstName()))
+			student.setFirstName(updatedStudent.getFirstName());
+		if (updatedStudent.getLastName() != null && !student.getLastName().equals(updatedStudent.getLastName()))
+			student.setLastName(updatedStudent.getLastName());
+		if (updatedStudent.getUsername() != null && !student.getUsername().equals(updatedStudent.getUsername()))
+			student.setUsername(updatedStudent.getUsername());
+		if (updatedStudent.getPassword() != null && !student.getPassword().equals(updatedStudent.getPassword()))
+			student.setPassword(updatedStudent.getPassword());
+		if (updatedStudent.getDateOfBirth() != null && !student.getDateOfBirth().equals(updatedStudent.getDateOfBirth()))
+			student.setDateOfBirth(updatedStudent.getDateOfBirth());
+		if (updatedStudent.getGrade() != null && !student.getGrade().getValue().equals(updatedStudent.getGrade()))
+			student.setGrade(gradeRepository.findByValue(updatedStudent.getGrade()));
+		
+		studentRepository.save(student);
+		return updatedStudent;
 	}
 
 }

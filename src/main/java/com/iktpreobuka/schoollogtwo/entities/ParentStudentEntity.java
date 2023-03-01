@@ -30,12 +30,12 @@ public class ParentStudentEntity {
 	@Column(name = "deleted")
 	private Boolean deleted;
 	
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "parent")
 	private ParentEntity parent;
 	
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "student")
 	private StudentEntity student;

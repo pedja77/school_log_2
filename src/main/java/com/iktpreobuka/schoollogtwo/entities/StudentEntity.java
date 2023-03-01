@@ -17,12 +17,13 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "student")
 @SQLDelete(sql = "UPDATE student SET deleted = true WHERE user_id=? AND version=?")
 @Where(clause = "deleted = false")
-//@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
+@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class StudentEntity extends UserEntity {
 	
 	@NotNull(message = "Date of birth must be provided")
@@ -30,7 +31,7 @@ public class StudentEntity extends UserEntity {
 	@DateTimeFormat(pattern = "dd-MM-yyy")
 	private LocalDate dateOfBirth;
 
-	@JsonIgnore
+	//@JsonIgnore
 	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<ParentStudentEntity> parents;
 	

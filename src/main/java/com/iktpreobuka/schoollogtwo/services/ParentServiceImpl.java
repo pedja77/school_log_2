@@ -2,6 +2,8 @@ package com.iktpreobuka.schoollogtwo.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,15 +62,18 @@ public class ParentServiceImpl implements ParentService {
 	}
 
 	@Override
+	@Transactional
 	public ParentEntity deleteParent(Integer id) {
 		ParentEntity parent = parentRepository.findById(id).get();
+		
+		parentStudentRepository.deleteAll(parent.getStudents());
+//		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByParent(parent);
+//		// Delete all the references from parent to student on both sides
+//		for (ParentStudentEntity ps: parentStudents) {
+//			parentStudentRepository.delete(ps);
+//			ps.getStudent().getParents().remove(ps);
+//		}
 		parentRepository.delete(parent);
-		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByParent(parent);
-		// Delete all the references from parent to student on both sides
-		for (ParentStudentEntity ps: parentStudents) {
-			parentStudentRepository.delete(ps);
-			ps.getStudent().getParents().remove(ps);
-		}
 		return parent;
 	}
 

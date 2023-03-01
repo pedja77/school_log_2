@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "teacher_student")
 @SQLDelete(sql = "UPDATE teacher_student SET deleted = true WHERE id=? AND version=?")
@@ -27,10 +29,12 @@ public class TeacherStudentEntity {
 	@Column(name = "deleted")
 	private Boolean deleted;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "teacher")
 	private TeacherEntity teacher;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "student")
 	private StudentEntity student;

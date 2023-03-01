@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,11 +38,21 @@ public class UserRoleController {
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public String deleteRole(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteRole(@PathVariable Integer id) {
 		UserRoleEntity role = roleRepository.findById(id).get();
-		System.out.println(role.getRoleName());
-		roleRepository.deleteById(id);
+		roleRepository.delete(role);
 		
-		return "ok";
+		return new ResponseEntity<>(role, HttpStatus.OK);
+	}
+	
+	@PutMapping(path = "/{id}")
+	public ResponseEntity<?> createUserRole(@PathVariable Integer id, @RequestParam(name = "role") String role) {
+		UserRoleEntity userRole = roleRepository.findById(id).orElseThrow();
+		if (role != null && !userRole.getRoleName().equals(role))
+			userRole.setRoleName(role);
+		
+		roleRepository.save(userRole);
+		
+		return new ResponseEntity<>(userRole, HttpStatus.OK);
 	}
 }
