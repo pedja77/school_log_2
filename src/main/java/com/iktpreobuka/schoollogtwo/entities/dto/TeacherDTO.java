@@ -1,10 +1,10 @@
 package com.iktpreobuka.schoollogtwo.entities.dto;
 
-public class TecherDTO extends UserDTO {
+public class TeacherDTO extends UserDTO {
 
 	private Integer weeklyClasses;
 
-	public TecherDTO() {
+	public TeacherDTO() {
 		super();
 	}
 
