@@ -1,9 +1,12 @@
 package com.iktpreobuka.schoollogtwo.services;
 
-import org.springframework.stereotype.Service;
+import com.iktpreobuka.schoollogtwo.entities.GradeEntity;
+import com.iktpreobuka.schoollogtwo.entities.dto.GradeDTO;
 
-@Service
 public interface GradeService {
-
+	
+	public GradeDTO createGrade(GradeDTO newGrade);
+	public GradeDTO updateGrade(Integer id, GradeDTO updatedGrade);
+	public GradeEntity deleteGrade(Integer id);
 	
 }

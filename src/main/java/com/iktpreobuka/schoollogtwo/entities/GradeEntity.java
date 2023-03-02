@@ -56,7 +56,7 @@ public class GradeEntity {
 	private List<StudentEntity> students;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "grade", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH}) //mappedBy = "grade", 
+	@OneToMany(mappedBy = "grade", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH}) 
 	private List<SubjectEntity> subjects;
 
 	public GradeEntity() {
