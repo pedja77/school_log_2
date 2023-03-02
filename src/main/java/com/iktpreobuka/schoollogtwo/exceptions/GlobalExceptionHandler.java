@@ -1,5 +1,6 @@
 package com.iktpreobuka.schoollogtwo.exceptions;
 
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
 	public String handleError(MultipartException e) {
 
 		return "Something went wrong!!!";
+	}
+	
+	@ExceptionHandler(DateTimeParseException.class)
+	public ResponseEntity<?> handleDateTimeParseException(DateTimeParseException e) {
+		return new ResponseEntity<>("Bad date or time format", HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(NoSuchFieldException.class)

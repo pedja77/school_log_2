@@ -61,6 +61,7 @@ public class GradeEntity {
 
 	public GradeEntity() {
 		super();
+		this.deleted = false;
 	}
 
 	public Integer getId() {

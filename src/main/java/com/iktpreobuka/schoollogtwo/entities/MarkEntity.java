@@ -24,6 +24,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "mark")
@@ -42,7 +43,7 @@ public class MarkEntity {
 	protected Integer value;
 	
 	@Column(name = "coment")
-	protected String coment;
+	protected String comment;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "semester")
@@ -75,6 +76,7 @@ public class MarkEntity {
 
 	public MarkEntity() {
 		super();
+		this.deleted = false;
 	}
 
 	public Integer getId() {
@@ -93,12 +95,12 @@ public class MarkEntity {
 		this.value = value;
 	}
 
-	public String getComent() {
-		return coment;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setComent(String coment) {
-		this.coment = coment;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public Integer getVersion() {

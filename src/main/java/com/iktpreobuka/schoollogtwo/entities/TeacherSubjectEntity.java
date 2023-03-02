@@ -41,6 +41,7 @@ public class TeacherSubjectEntity {
 
 	public TeacherSubjectEntity() {
 		super();
+		this.deleted = false;
 	}
 
 	public Integer getId() {

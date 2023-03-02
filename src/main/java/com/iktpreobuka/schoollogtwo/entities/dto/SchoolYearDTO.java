@@ -1,39 +1,41 @@
 package com.iktpreobuka.schoollogtwo.entities.dto;
 
-import java.time.LocalDate;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SchoolYearDTO {
 
 	@JsonProperty(value = "Start")
-	private LocalDate startDate;
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+	private String startDate;
 	@JsonProperty(value = "End")
-	private LocalDate endDate;
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+	private String endDate;
 
 	public SchoolYearDTO() {
 		super();
 	}
 
-	public SchoolYearDTO(LocalDate startDate, LocalDate endDate) {
+	public SchoolYearDTO(String startDate, String endDate) {
 		super();
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	

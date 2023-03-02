@@ -66,6 +66,7 @@ public class SubjectEntity {
 	
 	public SubjectEntity() {
 		super();
+		this.deleted = false;
 	}
 
 	public Integer getId() {

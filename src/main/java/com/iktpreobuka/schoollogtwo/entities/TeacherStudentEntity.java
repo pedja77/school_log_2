@@ -39,6 +39,13 @@ public class TeacherStudentEntity {
 	@JoinColumn(name = "student")
 	private StudentEntity student;
 
+	
+	
+	public TeacherStudentEntity() {
+		super();
+		this.deleted = false;
+	}
+
 	public Integer getId() {
 		return id;
 	}

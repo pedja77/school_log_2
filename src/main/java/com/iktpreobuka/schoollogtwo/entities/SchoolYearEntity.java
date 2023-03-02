@@ -63,6 +63,7 @@ public class SchoolYearEntity {
 
 	public SchoolYearEntity() {
 		super();
+		this.deleted = false;
 	}
 
 	public Integer getId() {

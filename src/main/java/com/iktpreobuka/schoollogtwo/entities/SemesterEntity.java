@@ -72,6 +72,7 @@ public class SemesterEntity {
 
 	public SemesterEntity() {
 		super();
+		this.deleted = false;
 	}
 
 	public Integer getId() {
