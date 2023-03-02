@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,17 +14,18 @@ public class SemesterDTO {
 
 	@JsonProperty(value = "Semester")
 	@NotNull
+	@Range(min = 1, max = 2, message = "There are only two semesters in the year. Must be 1 or 2.")
 	private Integer semester;
 	
 	@JsonProperty(value = "Start")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
-	private LocalDate startDate;
+	private String startDate;
 	
 	@JsonProperty(value = "End")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
-	private LocalDate endDate;
+	private String endDate;
 	
 	@JsonProperty(value = "School year")
 	@NotNull
@@ -32,7 +35,7 @@ public class SemesterDTO {
 		super();
 	}
 
-	public SemesterDTO(Integer semester, LocalDate startDate, LocalDate endDate, Integer schoolYearId) {
+	public SemesterDTO(Integer semester, String startDate, String endDate, Integer schoolYearId) {
 		super();
 		this.semester = semester;
 		this.startDate = startDate;
@@ -48,19 +51,19 @@ public class SemesterDTO {
 		this.semester = semester;
 	}
 
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
