@@ -21,8 +21,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "school_year")
@@ -36,9 +38,11 @@ public class SchoolYearEntity {
 	private Integer id;
 	
 	@Column(name = "start_date")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate startDate;
 	
 	@Column(name = "end_date")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate endDate;
 	
 	@Version
