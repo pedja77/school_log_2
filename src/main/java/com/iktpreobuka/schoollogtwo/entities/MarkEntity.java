@@ -45,7 +45,7 @@ public class MarkEntity {
 	protected String coment;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-	//@JoinColumn(name = "id")
+	@JoinColumn(name = "semester")
 	protected SemesterEntity semester;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
