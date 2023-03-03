@@ -50,7 +50,7 @@ public class MarkEntity {
 	protected String comment;
 	
 	@Column(name = "mark_date")
-	//@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	protected LocalDate markDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})

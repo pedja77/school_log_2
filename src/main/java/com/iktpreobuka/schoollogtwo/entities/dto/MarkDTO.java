@@ -24,9 +24,9 @@ public class MarkDTO {
 	@JsonProperty(value = "Subject")
 	private Integer subjectId;
 	
-	@NotNull
-	@JsonProperty(value = "Semester")
-	private Integer semesterId;
+//	@NotNull
+//	@JsonProperty(value = "Semester")
+//	private Integer semesterId;
 	
 //	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 //	protected LocalDate markDate;
@@ -92,13 +92,13 @@ public class MarkDTO {
 		this.comment = comment;
 	}
 
-	public Integer getSemesterId() {
-		return semesterId;
-	}
-
-	public void setSemesterId(Integer semesterId) {
-		this.semesterId = semesterId;
-	}
+//	public Integer getSemesterId() {
+//		return semesterId;
+//	}
+//
+//	public void setSemesterId(Integer semesterId) {
+//		this.semesterId = semesterId;
+//	}
 
 //	public LocalDate getMarkDate() {
 //		return markDate;

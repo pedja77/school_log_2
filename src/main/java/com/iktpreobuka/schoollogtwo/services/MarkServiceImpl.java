@@ -1,12 +1,18 @@
 package com.iktpreobuka.schoollogtwo.services;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iktpreobuka.schoollogtwo.entities.MarkEntity;
+import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
+import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
+import com.iktpreobuka.schoollogtwo.entities.SubjectEntity;
+import com.iktpreobuka.schoollogtwo.entities.TeacherEntity;
 import com.iktpreobuka.schoollogtwo.entities.TeacherStudentEntity;
+import com.iktpreobuka.schoollogtwo.entities.TeacherSubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.MarkDTO;
 import com.iktpreobuka.schoollogtwo.repositories.MarkRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SemesterRepository;
@@ -28,21 +34,56 @@ public class MarkServiceImpl implements MarkService {
 	@Autowired
 	private MarkRepository markRepository;
 	
+	private boolean isTeachersStudent(TeacherEntity teacher, StudentEntity student) {
+		return teacher.getStudents().stream()
+				.map(e -> e.getStudent())
+				.toList()
+				.contains(student);
+	}
+	
+	private boolean isTeacherSubject(TeacherEntity teacher, SubjectEntity subject) {
+		return teacher.getSubjects().stream()
+				.map(e -> e.getSubject())
+				.toList()
+				.contains(subject);
+	}
+	
+	private boolean isStudentsSubject(StudentEntity student, SubjectEntity subject) {
+		return student.getSubjects().stream()
+				.map(e -> e.getSubject())
+				.toList()
+				.contains(subject);
+	}
+	
 	@Override
-	public MarkDTO createMark(MarkDTO newMark) {
+	public Optional<MarkEntity> createMark(MarkDTO newMark) {
 		MarkEntity mark = new MarkEntity();
-		mark.setValue(newMark.getValue());
-		mark.setComment(newMark.getComment());
+		TeacherStudentEntity teacher = teacherStudentRepo.findByTeacherIdAndStudentId(
+				newMark.getTeacherId(), newMark.getStudentId());
+		StudentSubjectEntity student = studentSubjectRepo.findByStudentIdAndSubjectId(
+				newMark.getStudentId(), newMark.getSubjectId());
+		TeacherSubjectEntity subject = teacherSubjectRepo.findByTeacherIdAndSubjectId(
+				newMark.getTeacherId(), newMark.getSubjectId());
 		
-		mark.setStudent(studentSubjectRepo.findByStudentIdAndSubjectId(newMark.getStudentId(), newMark.getSubjectId()));
-		mark.setTeacher(teacherStudentRepo.findByTeacherIdAndStudentId(newMark.getTeacherId(), newMark.getStudentId()));
-		mark.setSubject(teacherSubjectRepo.findByTeacherIdAndSubjectId(newMark.getTeacherId(), newMark.getSubjectId()));
-		LocalDate markDate = LocalDate.now();
-		mark.setMarkDate(markDate);
-		mark.setSemester(semesterRepository.findByMarkDate(markDate));
+		if (isTeachersStudent(teacher.getTeacher(), student.getStudent()) &&
+				isTeacherSubject(teacher.getTeacher(), subject.getSubject()) &&
+				isStudentsSubject(student.getStudent(), subject.getSubject())) {
+			
+			mark.setValue(newMark.getValue());
+			mark.setComment(newMark.getComment());
+			
+			mark.setStudent(student);
+			mark.setTeacher(teacher);
+			mark.setSubject(subject);
+			LocalDate markDate = LocalDate.now();
+			mark.setMarkDate(markDate);
+			mark.setSemester(semesterRepository.findByMarkDate(markDate));
+			
+			markRepository.save(mark);
+			return Optional.of(mark);
+		}
 		
-		markRepository.save(mark);
-		return null;
+		return Optional.ofNullable(null);
 	}
 
 	@Override

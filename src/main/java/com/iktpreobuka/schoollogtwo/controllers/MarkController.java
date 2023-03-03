@@ -21,6 +21,8 @@ public class MarkController {
 	
 	@PostMapping
 	public ResponseEntity<?> createMark(@RequestBody MarkDTO newMark) {
-		return new ResponseEntity<>(markService.createMark(newMark), HttpStatus.CREATED);
+		return new ResponseEntity<>(markService.createMark(newMark)
+				.orElseThrow(IllegalArgumentException::new), 
+				HttpStatus.CREATED);
 	}
 }
