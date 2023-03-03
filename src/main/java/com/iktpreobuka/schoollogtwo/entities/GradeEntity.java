@@ -21,11 +21,13 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "grade")
 @SQLDelete(sql = "UPDATE grade SET deleted = true WHERE id=? AND version=?")
 @Where(clause = "deleted = false")
+@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class GradeEntity {
 
 	@Id

@@ -26,6 +26,7 @@ public class ParentServiceImpl implements ParentService {
 	private ParentStudentRepository parentStudentRepository;
 
 	@Override
+	@Transactional
 	public ParentEntity createParent(ParentDTO newParent) {
 		ParentEntity parent = new ParentEntity();
 		parent.setFirstName(newParent.getFirstName());

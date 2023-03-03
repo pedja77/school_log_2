@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iktpreobuka.schoollogtwo.entities.dto.StudentsCollectionDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeachersCollectionDTO;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherRepository;
@@ -49,5 +51,18 @@ public class TeacherController {
 	@PostMapping(path = "/bulk")
 	public ResponseEntity<?> bulkCreate(@RequestBody TeachersCollectionDTO teachers) {
 		return new ResponseEntity<>(teacherService.bulkCreate(teachers), HttpStatus.CREATED);
+	}
+	
+	@PutMapping(path = "/{id}/subjects")
+	public ResponseEntity<?> addSubjectsToTeacher(@PathVariable Integer id, @RequestBody SubjectsCollectionDTO subjects) {
+		return new ResponseEntity<>(teacherService.addSubjectsToTeacher(id, subjects), HttpStatus.OK);
+	}
+	
+	@PutMapping(path = "/{id}/subject/{subjectId}/students")
+	public ResponseEntity<?> addStudentsToTeacher(@PathVariable Integer id,
+			@PathVariable Integer subjectId,  @RequestBody StudentsCollectionDTO students) {
+		return new ResponseEntity<>(teacherService.addStudentsToTeacherBySubject(id, subjectId, students)
+				.orElseThrow(IllegalArgumentException::new), 
+				HttpStatus.OK);
 	}
 }

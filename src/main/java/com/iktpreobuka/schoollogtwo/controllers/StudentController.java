@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
 import com.iktpreobuka.schoollogtwo.services.StudentService;
 
@@ -48,6 +49,11 @@ public class StudentController {
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> updateStudent(@PathVariable Integer id, @RequestBody StudentDTO updatedStudent) {
 		return new ResponseEntity<>(studentService.updateStudent(id, updatedStudent), HttpStatus.OK);
+	}
+	
+	@PutMapping(path = "/{id}/subjects")
+	public ResponseEntity<?> addSubjectsToStudent(@PathVariable Integer id, @RequestBody SubjectsCollectionDTO subjects) {
+		return new ResponseEntity<>(studentService.addSubjectsToStudent(id, subjects), HttpStatus.OK);
 	}
 	
 }

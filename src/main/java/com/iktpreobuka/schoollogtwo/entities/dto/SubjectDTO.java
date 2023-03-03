@@ -17,7 +17,7 @@ public class SubjectDTO {
 	@NotNull
 	@JsonProperty(value = "Grade")
 	@Range(min = 1, max = 8)
-	private Integer grade; // ne sifra rareda, nego "vrednost razreda" ~ godina
+	private Integer grade; // ne sifra razreda, nego "vrednost razreda" ~ godina
 	
 	public SubjectDTO() {
 		super();

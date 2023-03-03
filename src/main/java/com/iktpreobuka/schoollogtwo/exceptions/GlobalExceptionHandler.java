@@ -27,6 +27,11 @@ public class GlobalExceptionHandler {
 
 		return "Something went wrong!!!";
 	}
+	 
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
+		return new ResponseEntity<>("Request data not valid or doesn't comply to relations in the model.", HttpStatus.BAD_REQUEST);
+	}
 	
 	@ExceptionHandler(DateTimeParseException.class)
 	public ResponseEntity<?> handleDateTimeParseException(DateTimeParseException e) {

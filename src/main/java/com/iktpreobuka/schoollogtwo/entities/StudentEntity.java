@@ -17,8 +17,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "student")
@@ -29,7 +31,7 @@ public class StudentEntity extends UserEntity {
 	
 	@NotNull(message = "Date of birth must be provided")
 	@Past(message = "Students date of birth must be in the past.")
-	@DateTimeFormat(pattern = "dd-MM-yyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dateOfBirth;
 
 	//@JsonIgnore
@@ -43,6 +45,7 @@ public class StudentEntity extends UserEntity {
 	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<StudentSubjectEntity> subjects;
 	
+	@NotNull(message = "Students grade must be provided")
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "grade")
 	private GradeEntity grade;

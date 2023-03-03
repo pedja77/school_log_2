@@ -1,5 +1,6 @@
 package com.iktpreobuka.schoollogtwo.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,9 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 @Entity
 @Table(name = "mark")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -45,6 +49,10 @@ public class MarkEntity {
 	@Column(name = "coment")
 	protected String comment;
 	
+	@Column(name = "mark_date")
+	//@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+	protected LocalDate markDate;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "semester")
 	protected SemesterEntity semester;
@@ -63,12 +71,10 @@ public class MarkEntity {
 	
 	@Column(name = "created")
 	@CreationTimestamp
-	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime createdOn;
 	
 	@Column(name = "updated")
 	@UpdateTimestamp
-	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime updatedOn;
 	
 	@Column(name = "deleted")
@@ -165,6 +171,14 @@ public class MarkEntity {
 
 	public void setSubject(TeacherSubjectEntity subject) {
 		this.subject = subject;
+	}
+
+	public LocalDate getMarkDate() {
+		return markDate;
+	}
+
+	public void setMarkDate(LocalDate markDate) {
+		this.markDate = markDate;
 	}
 	
 	

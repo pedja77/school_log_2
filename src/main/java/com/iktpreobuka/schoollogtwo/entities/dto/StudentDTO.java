@@ -8,16 +8,19 @@ import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StudentDTO extends UserDTO {
 
 	@NotNull
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	@Past
 	@JsonProperty(value = "Date of birth")
-	private LocalDate dateOfBirth;
+	private String dateOfBirth;
 	
+	@NotNull
 	@Range(min = 1, max = 8)
 	@JsonProperty(value = "Grade")
 	private Integer grade;
@@ -26,11 +29,11 @@ public class StudentDTO extends UserDTO {
 		super();
 	}
 
-	public LocalDate getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

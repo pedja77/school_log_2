@@ -1,8 +1,14 @@
 package com.iktpreobuka.schoollogtwo.entities.dto;
 
+import java.time.LocalDate;
+
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 public class MarkDTO {
 
@@ -19,7 +25,15 @@ public class MarkDTO {
 	private Integer subjectId;
 	
 	@NotNull
+	@JsonProperty(value = "Semester")
+	private Integer semesterId;
+	
+//	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+//	protected LocalDate markDate;
+	
+	@NotNull
 	@JsonProperty(value = "Mark")
+	@Range(min = 1, max = 5, message = "Mark must be between 1 and 5.")
 	private Integer value;
 	
 	@JsonProperty(value = "Comment")
@@ -77,6 +91,22 @@ public class MarkDTO {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+	public Integer getSemesterId() {
+		return semesterId;
+	}
+
+	public void setSemesterId(Integer semesterId) {
+		this.semesterId = semesterId;
+	}
+
+//	public LocalDate getMarkDate() {
+//		return markDate;
+//	}
+//
+//	public void setMarkDate(LocalDate markDate) {
+//		this.markDate = markDate;
+//	}
 	
 	
 }

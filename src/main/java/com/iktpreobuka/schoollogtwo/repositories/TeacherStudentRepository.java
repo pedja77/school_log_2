@@ -6,4 +6,5 @@ import com.iktpreobuka.schoollogtwo.entities.TeacherStudentEntity;
 
 public interface TeacherStudentRepository extends CrudRepository<TeacherStudentEntity, Integer> {
 
+	public TeacherStudentEntity findByTeacherIdAndStudentId(Integer teacherId, Integer studentId);
 }

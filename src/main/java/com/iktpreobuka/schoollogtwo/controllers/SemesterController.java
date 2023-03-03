@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.schoollogtwo.entities.SchoolYearEntity;
@@ -31,6 +32,12 @@ public class SemesterController {
 	private SemesterRepository semesterRepo;
 	@Autowired
 	private SchoolYearRepository syRepo;
+	
+	@GetMapping
+	public ResponseEntity<?> getByMarkDate(@RequestParam String md) {
+		LocalDate markDate = LocalDate.parse(md);
+		return new ResponseEntity<>(semesterRepo.findByMarkDate(markDate), HttpStatus.OK);
+	}
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getSemesterById(@PathVariable Integer id) {

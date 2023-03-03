@@ -4,10 +4,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GradeDTO {
 
 	@NotNull
 	@Range(min = 1, max = 8)
+	@JsonProperty(value = "Grade")
 	private Integer value;
 
 	public GradeDTO() {
