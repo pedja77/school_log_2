@@ -38,16 +38,20 @@ public class UserRoleEntity {
 	@Column(name = "role_name")
 	private String roleName;
 	
+	@JsonIgnore
 	@Column(name = "deleted")
 	private Boolean deleted;
 	
+	@JsonIgnore
 	@Version
 	private Integer version;
 	
+	@JsonIgnore
 	@Column(name = "created")
 	@CreationTimestamp
 	private LocalDateTime createdOn;
 	
+	@JsonIgnore
 	@Column(name = "updated")
 	@UpdateTimestamp
 	private LocalDateTime updatedOn;
