@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
-import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
-import com.iktpreobuka.schoollogtwo.entities.UserRoleEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.ParentStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
+import com.iktpreobuka.schoollogtwo.util.Encryption;
 
 @Service
 public class ParentServiceImpl implements ParentService {
@@ -32,7 +31,7 @@ public class ParentServiceImpl implements ParentService {
 		parent.setFirstName(newParent.getFirstName());
 		parent.setLastName(newParent.getLastName());
 		parent.setUsername(newParent.getUsername());
-		parent.setPassword(newParent.getPassword());
+		parent.setPassword(Encryption.getPassEncoded(newParent.getPassword()));
 		parent.setEmail(newParent.getEmail());
 		parent.setRole(roleRepository.findByRoleName(newParent.getRole()));
 		
@@ -53,7 +52,7 @@ public class ParentServiceImpl implements ParentService {
 			parent.setUsername(updatedParent.getUsername());
 		}
 		if (updatedParent.getPassword() != null && !parent.getPassword().equals(updatedParent.getPassword())) {
-			parent.setPassword(updatedParent.getPassword());
+			parent.setPassword(Encryption.getPassEncoded(updatedParent.getPassword()));
 		}
 		if (updatedParent.getEmail() != null && !parent.getEmail().equals(updatedParent.getEmail())) {
 			parent.setEmail(updatedParent.getEmail());

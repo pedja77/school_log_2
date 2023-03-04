@@ -23,6 +23,7 @@ import com.iktpreobuka.schoollogtwo.repositories.TeacherRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherSubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
+import com.iktpreobuka.schoollogtwo.util.Encryption;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -39,6 +40,20 @@ public class TeacherServiceImpl implements TeacherService {
 	private SubjectRepository subjectRepository;
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	private boolean isStudentsSubject(StudentEntity student, SubjectEntity subject) {
+		return student.getSubjects().stream()
+				.map(e -> e.getSubject())
+				.toList()
+				.contains(subject);
+	}
+	
+	private boolean isTeachersSubject(TeacherEntity teacher, SubjectEntity subject) {
+		return teacher.getSubjects().stream()
+				.map(e -> e.getSubject())
+				.toList()
+				.contains(subject);
+	}
 
 	@Override
 	public TeacherEntity createTeacher(TeacherDTO newTeacher) {
@@ -46,7 +61,7 @@ public class TeacherServiceImpl implements TeacherService {
 		teacher.setFirstName(newTeacher.getFirstName());
 		teacher.setLastName(newTeacher.getLastName());
 		teacher.setUsername(newTeacher.getUsername());
-		teacher.setPassword(newTeacher.getPassword());
+		teacher.setPassword(Encryption.getPassEncoded(newTeacher.getPassword()));
 		teacher.setWeeklyClasses(newTeacher.getWeeklyClasses());
 		teacher.setRole(roleRepository.findByRoleName(newTeacher.getRole()));
 		
@@ -63,7 +78,7 @@ public class TeacherServiceImpl implements TeacherService {
 		if (updatedTeacher.getUsername() != null && !teacher.getUsername().equals(updatedTeacher.getUsername()))
 			teacher.setUsername(updatedTeacher.getUsername());
 		if (updatedTeacher.getPassword() != null && !teacher.getPassword().equals(updatedTeacher.getPassword()))
-			teacher.setPassword(updatedTeacher.getPassword());
+			teacher.setPassword(Encryption.getPassEncoded(updatedTeacher.getPassword()));
 		if (updatedTeacher.getWeeklyClasses() != null && !teacher.getWeeklyClasses().equals(updatedTeacher.getWeeklyClasses()))
 			teacher.setWeeklyClasses(updatedTeacher.getWeeklyClasses());
 //		if (updatedTeacher.getRole() != null && !teacher.getRole().equals(roleRepository.findByRoleName(updatedTeacher.getRole())))
@@ -135,19 +150,4 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		return Optional.ofNullable(null);
 	}
-	
-	private boolean isStudentsSubject(StudentEntity student, SubjectEntity subject) {
-		return student.getSubjects().stream()
-				.map(e -> e.getSubject())
-				.toList()
-				.contains(subject);
-	}
-	
-	private boolean isTeachersSubject(TeacherEntity teacher, SubjectEntity subject) {
-		return teacher.getSubjects().stream()
-				.map(e -> e.getSubject())
-				.toList()
-				.contains(subject);
-	}
-
 }

@@ -21,6 +21,7 @@ import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentSubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
+import com.iktpreobuka.schoollogtwo.util.Encryption;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -46,7 +47,7 @@ public class StudentServiceImpl implements StudentService {
 		student.setFirstName(newStudent.getFirstName());
 		student.setLastName(newStudent.getLastName());
 		student.setUsername(newStudent.getUsername());
-		student.setPassword(newStudent.getPassword());
+		student.setPassword(Encryption.getPassEncoded(newStudent.getPassword()));
 		student.setDateOfBirth(LocalDate.parse(newStudent.getDateOfBirth(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		student.setRole(roleRepository.findByRoleName(newStudent.getRole()));
 		student.setGrade(gradeRepository.findByValue(newStudent.getGrade()));
@@ -101,7 +102,7 @@ public class StudentServiceImpl implements StudentService {
 		if (updatedStudent.getUsername() != null && !student.getUsername().equals(updatedStudent.getUsername()))
 			student.setUsername(updatedStudent.getUsername());
 		if (updatedStudent.getPassword() != null && !student.getPassword().equals(updatedStudent.getPassword()))
-			student.setPassword(updatedStudent.getPassword());
+			student.setPassword(Encryption.getPassEncoded(updatedStudent.getPassword()));
 		if (updatedStudent.getDateOfBirth() != null && !student.getDateOfBirth().equals(updatedStudent.getDateOfBirth()))
 			student.setDateOfBirth(LocalDate.parse(updatedStudent.getDateOfBirth(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		if (updatedStudent.getGrade() != null && !student.getGrade().getValue().equals(updatedStudent.getGrade()))
