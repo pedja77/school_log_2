@@ -1,11 +1,14 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,6 +40,8 @@ public class UserController {
 	@Value("${spring.security.token-duration}")
 	private Integer tokenDuration;
 	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
 	private String getJWTToken(UserEntity userEntity) {
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 				.commaSeparatedStringToAuthorityList(userEntity.getRole().getRoleName());
@@ -63,7 +68,14 @@ public class UserController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> getAll() {
+	public ResponseEntity<?> getAllUsers(Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
 	}
+	
 }
