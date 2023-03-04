@@ -1,5 +1,9 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +26,23 @@ public class UserRoleController {
 	@Autowired
 	private UserRoleRepository roleRepository;
 	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping
-	public ResponseEntity<?> allRoles() {
+	public ResponseEntity<?> allRoles(Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createUserRole(@RequestParam(name = "role") String role) {
+	public ResponseEntity<?> createUserRole(@RequestParam(name = "role") String role, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		UserRoleEntity userRole = new UserRoleEntity();
 		userRole.setRoleName(role);
 		
@@ -38,7 +52,11 @@ public class UserRoleController {
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteRole(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteRole(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		UserRoleEntity role = roleRepository.findById(id).get();
 		roleRepository.delete(role);
 		
@@ -46,7 +64,11 @@ public class UserRoleController {
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> createUserRole(@PathVariable Integer id, @RequestParam(name = "role") String role) {
+	public ResponseEntity<?> createUserRole(@PathVariable Integer id, @RequestParam(name = "role") String role, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		UserRoleEntity userRole = roleRepository.findById(id).orElseThrow();
 		if (role != null && !userRole.getRoleName().equals(role))
 			userRole.setRoleName(role);

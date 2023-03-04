@@ -1,7 +1,11 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,33 +38,60 @@ public class ParentController {
 	@Autowired
 	UserCustomValidator userValidator;
 	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
 	@InitBinder
 	protected void initBinder(final WebDataBinder binder) {
 		binder.addValidators(userValidator);
 	}
 	
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> getParentById(@PathVariable Integer id) {
+	public ResponseEntity<?> getParentById(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(parentRepository.findById(id).get(), HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> allParents() {
+	public ResponseEntity<?> allParents(Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(parentRepository.findAll(), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createParent(@Valid @RequestBody ParentDTO newParent) {
+	public ResponseEntity<?> createParent(@Valid @RequestBody ParentDTO newParent, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(parentService.createParent(newParent), HttpStatus.CREATED);
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateParent(@PathVariable Integer id,  @RequestBody ParentDTO updatedParent) {
+	public ResponseEntity<?> updateParent(@PathVariable Integer id,  @RequestBody ParentDTO updatedParent, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(parentService.updateParent(id, updatedParent), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteParent(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteParent(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(parentService.deleteParent(id), HttpStatus.OK);
 	}
 }

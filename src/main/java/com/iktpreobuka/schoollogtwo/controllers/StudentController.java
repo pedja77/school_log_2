@@ -1,5 +1,9 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,33 +30,59 @@ public class StudentController {
 	@Autowired
 	StudentRepository studentRepository;
 	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> getStudentById(@PathVariable Integer id) {
+	public ResponseEntity<?> getStudentById(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(studentRepository.findById(id).get(), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createStudent(@RequestBody StudentDTO newStudent) {
+	public ResponseEntity<?> createStudent(@RequestBody StudentDTO newStudent, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(studentService.createStudent(newStudent), HttpStatus.CREATED);
 	}
 	
 	@PutMapping(path = "/{studentId}/parent/{parentId}")
-	public ResponseEntity<?> addParentToStudent(@PathVariable Integer studentId, @PathVariable Integer parentId) {
+	public ResponseEntity<?> addParentToStudent(@PathVariable Integer studentId, @PathVariable Integer parentId, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(studentService.addParentToStudent(studentId, parentId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteStudent(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteStudent(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(studentService.deleteStudent(id), HttpStatus.OK);
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateStudent(@PathVariable Integer id, @RequestBody StudentDTO updatedStudent) {
+	public ResponseEntity<?> updateStudent(@PathVariable Integer id, @RequestBody StudentDTO updatedStudent, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(studentService.updateStudent(id, updatedStudent), HttpStatus.OK);
 	}
 	
 	@PutMapping(path = "/{id}/subjects")
-	public ResponseEntity<?> addSubjectsToStudent(@PathVariable Integer id, @RequestBody SubjectsCollectionDTO subjects) {
+	public ResponseEntity<?> addSubjectsToStudent(@PathVariable Integer id, @RequestBody SubjectsCollectionDTO subjects, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(studentService.addSubjectsToStudent(id, subjects), HttpStatus.OK);
 	}
 	

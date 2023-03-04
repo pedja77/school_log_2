@@ -1,5 +1,9 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,24 +29,42 @@ public class SubjectController {
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> getSubjectById(@PathVariable Integer id) {
+	public ResponseEntity<?> getSubjectById(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(subjectRepository.findById(id).orElseThrow(), HttpStatus.OK);
 	}
 	
 
 	@PostMapping
-	public ResponseEntity<?> createSubject(@RequestBody SubjectDTO newSubject) {
+	public ResponseEntity<?> createSubject(@RequestBody SubjectDTO newSubject, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(subjectService.createSubject(newSubject), HttpStatus.CREATED);
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateSubject(@PathVariable Integer id, @RequestBody SubjectDTO updatedSubject) {
+	public ResponseEntity<?> updateSubject(@PathVariable Integer id, @RequestBody SubjectDTO updatedSubject, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(subjectService.updateSubject(id, updatedSubject), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteSubject(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteSubject(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(subjectService.deleteSubject(id), HttpStatus.OK);
 	}
 }

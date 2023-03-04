@@ -1,5 +1,9 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +28,46 @@ public class GradeController {
 	private GradeRepository gradeRepository;
 	@Autowired
 	private GradeService gradeService;
+	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> getGradeById(@PathVariable Integer id) {
+	public ResponseEntity<?> getGradeById(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(gradeRepository.findById(id).orElseThrow(), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createGrade(@RequestBody GradeDTO newGrade){
+	public ResponseEntity<?> createGrade(@RequestBody GradeDTO newGrade, Principal p){
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(gradeService.createGrade(newGrade), HttpStatus.CREATED);
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> deleteGrade(@PathVariable Integer id, @RequestBody GradeDTO updatedGrade) {
+	public ResponseEntity<?> deleteGrade(@PathVariable Integer id, @RequestBody GradeDTO updatedGrade, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(gradeService.updateGrade(id, updatedGrade), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteGrade(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteGrade(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(gradeService.deleteGrade(id), HttpStatus.OK);
 	}
 }

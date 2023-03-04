@@ -1,8 +1,11 @@
 package com.iktpreobuka.schoollogtwo.controllers;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +29,25 @@ public class SchoolYearController {
 	@Autowired
 	private SchoolYearRepository syRepo;
 	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> getSchoolYearById(@PathVariable Integer id) {
+	public ResponseEntity<?> getSchoolYearById(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		SchoolYearEntity year = syRepo.findById(id).orElseThrow();
 		System.out.println(year.getStartDate());
 		return new ResponseEntity<>(year, HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createSchoolYear(@RequestBody SchoolYearDTO newSchoolYear) {
+	public ResponseEntity<?> createSchoolYear(@RequestBody SchoolYearDTO newSchoolYear, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		SchoolYearEntity schoolYear = new SchoolYearEntity();
 		
 		schoolYear.setStartDate(LocalDate.parse(newSchoolYear.getStartDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -46,7 +59,11 @@ public class SchoolYearController {
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateSchoolYear(@PathVariable Integer id, @RequestBody SchoolYearDTO updatedSchoolYear) {
+	public ResponseEntity<?> updateSchoolYear(@PathVariable Integer id, @RequestBody SchoolYearDTO updatedSchoolYear, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		SchoolYearEntity schoolYear = syRepo.findById(id).orElseThrow();
 		LocalDate start = LocalDate.parse(updatedSchoolYear.getStartDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		LocalDate end = LocalDate.parse(updatedSchoolYear.getEndDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
@@ -64,7 +81,11 @@ public class SchoolYearController {
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteSchoolYear(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteSchoolYear(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		// METHOD STUB - Koliko je pametno brisati skolsku godinu???????!!!!!!?????
 		return null;
 	}
