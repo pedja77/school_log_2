@@ -45,7 +45,7 @@ public class UserEntity {
 	@NotNull(message = "Last name must be provided.")
 	protected String lastName;
 	
-	@Column(name = "username")
+	@Column(name = "username", unique = true)
 	@NotNull(message = "Username must be provided.")
 	protected String username;
 	
@@ -57,16 +57,17 @@ public class UserEntity {
 	@Version
 	protected Integer version;
 	
+	@JsonIgnore
 	@Column(name = "created")
 	@CreationTimestamp
-	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime createdOn;
 	
+	@JsonIgnore
 	@Column(name = "updated")
 	@UpdateTimestamp
-	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime updatedOn;
 	
+	@JsonIgnore
 	@Column(name = "deleted")
 	protected Boolean deleted;
 	

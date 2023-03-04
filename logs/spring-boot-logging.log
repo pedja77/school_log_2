@@ -373,3 +373,47 @@ This generated password is for development use only. Your security configuration
 2023-03-04 13:15:07.997  INFO 48729 --- [http-nio-8080-exec-3] c.i.s.c.UserController                   : [getAllUsers] Requested by julija
 2023-03-04 13:15:45.940  WARN 48729 --- [http-nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
 2023-03-04 13:16:05.641  INFO 48729 --- [http-nio-8080-exec-7] c.i.s.c.ParentController                 : [allParents] Requested by julija
+2023-03-04 14:18:02.796  INFO 53669 --- [main] c.i.s.SchoolLog2Application              : Starting SchoolLog2Application using Java 17.0.4.1 on mx-darkstar with PID 53669 (/home/pedja/Documents/workspace-spring-tool-suite-4-4.16.1.RELEASE/school_log_2/target/classes started by pedja in /home/pedja/Documents/workspace-spring-tool-suite-4-4.16.1.RELEASE/school_log_2)
+2023-03-04 14:18:02.804  INFO 53669 --- [main] c.i.s.SchoolLog2Application              : No active profile set, falling back to 1 default profile: "default"
+2023-03-04 14:18:03.361  INFO 53669 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-04 14:18:03.441  INFO 53669 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 14 JPA repository interfaces.
+2023-03-04 14:18:03.956  INFO 53669 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8080 (http)
+2023-03-04 14:18:03.972  INFO 53669 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2023-03-04 14:18:03.973  INFO 53669 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.71]
+2023-03-04 14:18:04.042  INFO 53669 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2023-03-04 14:18:04.043  INFO 53669 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1205 ms
+2023-03-04 14:18:04.443  INFO 53669 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2023-03-04 14:18:04.718  INFO 53669 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2023-03-04 14:18:08.120  INFO 53669 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-04 14:18:08.815  WARN 53669 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: b4c861e8-4081-48d5-9fb3-57e0af244f5e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2023-03-04 14:18:08.925  INFO 53669 --- [main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@361d169a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@47a68e3f, org.springframework.security.web.context.SecurityContextPersistenceFilter@2ac00dc9, org.springframework.security.web.header.HeaderWriterFilter@3956e933, org.springframework.security.web.authentication.logout.LogoutFilter@5c450960, com.iktpreobuka.schoollogtwo.config.JWTAuthorizationFilter@52288c65, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@68a1bb31, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@344f4a82, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@33ef393a, org.springframework.security.web.session.SessionManagementFilter@466bf366, org.springframework.security.web.access.ExceptionTranslationFilter@507e3e77, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7f72855d]
+2023-03-04 14:18:08.979  WARN 53669 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-04 14:18:09.348  INFO 53669 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-04 14:18:09.358  INFO 53669 --- [main] c.i.s.SchoolLog2Application              : Started SchoolLog2Application in 6.948 seconds (JVM running for 7.836)
+2023-03-04 14:21:05.903  INFO 53925 --- [main] c.i.s.SchoolLog2Application              : Starting SchoolLog2Application using Java 17.0.4.1 on mx-darkstar with PID 53925 (/home/pedja/Documents/workspace-spring-tool-suite-4-4.16.1.RELEASE/school_log_2/target/classes started by pedja in /home/pedja/Documents/workspace-spring-tool-suite-4-4.16.1.RELEASE/school_log_2)
+2023-03-04 14:21:05.910  INFO 53925 --- [main] c.i.s.SchoolLog2Application              : No active profile set, falling back to 1 default profile: "default"
+2023-03-04 14:21:06.458  INFO 53925 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-04 14:21:06.547  INFO 53925 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 82 ms. Found 14 JPA repository interfaces.
+2023-03-04 14:21:07.039  INFO 53925 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8080 (http)
+2023-03-04 14:21:07.054  INFO 53925 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2023-03-04 14:21:07.055  INFO 53925 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.71]
+2023-03-04 14:21:07.127  INFO 53925 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2023-03-04 14:21:07.127  INFO 53925 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1178 ms
+2023-03-04 14:21:07.523  INFO 53925 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2023-03-04 14:21:07.809  INFO 53925 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2023-03-04 14:21:08.804  INFO 53925 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-04 14:21:09.554  WARN 53925 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 515bd669-5b03-4f2f-b91d-a0fa3f8169a4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2023-03-04 14:21:09.669  INFO 53925 --- [main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@8e100e7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@420dde28, org.springframework.security.web.context.SecurityContextPersistenceFilter@1dc987b, org.springframework.security.web.header.HeaderWriterFilter@79827e71, org.springframework.security.web.authentication.logout.LogoutFilter@68ee7b3b, com.iktpreobuka.schoollogtwo.config.JWTAuthorizationFilter@6d3a56ea, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@cbd3871, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@66694050, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@141874c8, org.springframework.security.web.session.SessionManagementFilter@344f4a82, org.springframework.security.web.access.ExceptionTranslationFilter@381f05a9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@352a8183]
+2023-03-04 14:21:09.725  WARN 53925 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-04 14:21:10.107  INFO 53925 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-04 14:21:10.117  INFO 53925 --- [main] c.i.s.SchoolLog2Application              : Started SchoolLog2Application in 4.613 seconds (JVM running for 5.525)

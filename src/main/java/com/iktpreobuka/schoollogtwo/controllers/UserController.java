@@ -77,5 +77,4 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
 	}
-	
 }
