@@ -15,6 +15,6 @@ public class Encryption {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(getPassEncoded("perko"));
+		System.out.println(getPassEncoded("1234567"));
 	}
 }

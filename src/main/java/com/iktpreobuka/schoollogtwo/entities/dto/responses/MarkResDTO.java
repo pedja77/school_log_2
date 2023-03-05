@@ -56,12 +56,12 @@ public class MarkResDTO {
 		this.comment = comment;
 	}
 
-	public Integer getSemesterId() {
+	public Integer getSemester() {
 		return semester;
 	}
 
-	public void setSemesterId(Integer semesterId) {
-		this.semester = semesterId;
+	public void setSemester(Integer semester) {
+		this.semester = semester;
 	}
 
 	public String getSchoolYear() {

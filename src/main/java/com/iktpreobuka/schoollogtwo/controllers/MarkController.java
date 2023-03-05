@@ -53,11 +53,11 @@ public class MarkController {
 		mark.setValue(4);
 		mark.setComment("Vrlo dobar");
 		subjectMarks.setSubject("matemetiks");
-		subjectMarks.setMarks(Arrays.asList(mark));
+//		subjectMarks.setMarks(Arrays.asList(mark));
 		studentsMarks.getMarks().put(subjectMarks.getSubject(), subjectMarks.getMarks());
-//		subjectMarks.getMarks().add(mark);
-//		subjectMarks.getMarks().add(mark);
-		subjectMarks.setMarks(Arrays.asList(mark,mark,mark));
+		subjectMarks.addMark(mark);
+		subjectMarks.addMark(mark);
+//		subjectMarks.setMarks(Arrays.asList(mark,mark,mark));
 		studentsMarks.getMarks().put("Istorija", subjectMarks.getMarks());
 		return new ResponseEntity<>(studentsMarks, HttpStatus.OK);
 	}

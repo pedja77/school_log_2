@@ -90,6 +90,10 @@ public class UserEntity {
 		this.password = password;
 		this.role = role;
 	}
+	
+	public String getFullName() {
+		return this.firstName + " " + this.lastName;
+	}
 
 	public Integer getId() {
 		return id;

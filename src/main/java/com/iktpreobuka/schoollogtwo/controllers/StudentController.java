@@ -86,4 +86,13 @@ public class StudentController {
 		return new ResponseEntity<>(studentService.addSubjectsToStudent(id, subjects), HttpStatus.OK);
 	}
 	
+	@GetMapping(path = "/marks")
+	public ResponseEntity<?> methodName(Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(studentService.getStudentsMarks(p.getName()), HttpStatus.OK);
+	}
+	
 }

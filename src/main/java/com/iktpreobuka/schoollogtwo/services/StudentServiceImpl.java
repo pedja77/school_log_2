@@ -8,13 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.iktpreobuka.schoollogtwo.entities.FinalMarkEntity;
+import com.iktpreobuka.schoollogtwo.entities.MarkEntity;
 import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarkResDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarksBySubjectResDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.StudentsMarksResDTO;
 import com.iktpreobuka.schoollogtwo.repositories.GradeRepository;
+import com.iktpreobuka.schoollogtwo.repositories.MarkRepository;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.ParentStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
@@ -40,6 +46,8 @@ public class StudentServiceImpl implements StudentService {
 	private SubjectRepository subjectRepository;
 	@Autowired
 	StudentSubjectRepository studentSubjectRepository;
+	@Autowired
+	private MarkRepository markRepository;
 	
 	@Override
 	public StudentDTO createStudent(StudentDTO newStudent) {
@@ -127,6 +135,38 @@ public class StudentServiceImpl implements StudentService {
 				.toList();
 		studentSubjectRepository.saveAll(subjects);
 		return student;
+	}
+
+	@Override
+	public StudentsMarksResDTO getStudentsMarks(String username) {
+		StudentEntity student = studentRepository.findByUsername(username);
+		StudentsMarksResDTO studentsMarks = new StudentsMarksResDTO();
+		
+		for (StudentSubjectEntity e: student.getSubjects()) {
+			MarksBySubjectResDTO marks = new MarksBySubjectResDTO();
+			marks.setMarks(markRepository.findByStudent(e).stream()
+					.map(m -> markToDTO(m)).toList());
+			marks.setSubject(e.getSubject().getSubjectName());
+			studentsMarks.getMarks().put(marks.getSubject(), marks.getMarks());
+		}
+		
+		studentsMarks.setStudent(student.getFullName());
+		studentsMarks.setGrade(student.getGrade().getValue());
+		
+		return studentsMarks;
+	}
+	
+	private MarkResDTO markToDTO(MarkEntity mark) {
+		MarkResDTO markDto = new MarkResDTO();
+		markDto.setTeacher(mark.getTeacher().getTeacher().getFullName());
+		markDto.setValue(mark.getValue());
+		markDto.setComment(mark.getComment());
+		markDto.setChangedOn(mark.getUpdatedOn().toLocalDate());
+		markDto.setGivenOn(mark.getCreatedOn().toLocalDate());
+//		markDto.setSemester(mark.getSemester().getSemester());
+//		markDto.setSchoolYear(mark.getSemester().getSchoolYear().getName());
+		markDto.setIsFinal(mark instanceof FinalMarkEntity);
+		return markDto;
 	}
 
 }

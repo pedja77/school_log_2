@@ -6,11 +6,16 @@ import java.util.List;
 public class MarksBySubjectResDTO {
 
 	private String subject;
-	private List<MarkResDTO> marks =new ArrayList<>();
-
+	private List<MarkResDTO> marks = new ArrayList<>();
+	
 	public MarksBySubjectResDTO() {
 		super();
 	}
+	
+	public void addMark(MarkResDTO mark) {
+		this.marks.add(mark);
+	}
+
 
 	public List<MarkResDTO> getMarks() {
 		return marks;

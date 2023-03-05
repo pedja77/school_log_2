@@ -45,6 +45,9 @@ public class SchoolYearEntity {
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate endDate;
 	
+	@Column(name = "name")
+	private String name;
+	
 	@Version
 	protected Integer version;
 	
@@ -124,6 +127,22 @@ public class SchoolYearEntity {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<SemesterEntity> getSemesters() {
+		return semesters;
+	}
+
+	public void setSemesters(List<SemesterEntity> semesters) {
+		this.semesters = semesters;
 	}
 	
 	
