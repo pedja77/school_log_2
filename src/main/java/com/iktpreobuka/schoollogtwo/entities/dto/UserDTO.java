@@ -1,11 +1,9 @@
 package com.iktpreobuka.schoollogtwo.entities.dto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.iktpreobuka.schoollogtwo.entities.UserRoleEntity;
 
 public class UserDTO {
 
@@ -33,10 +31,6 @@ public class UserDTO {
 	@Size(min = 5, max = 10, message = "Confirmed password must be between {min} and {max} characters long and must match with password.")
 	@JsonProperty(value = "Confirmed password")
 	private String confirmedPassword;
-	
-	@NotNull(message = "User role must be provided")
-	@JsonProperty(value = "Role")
-	private String role;
 
 	public UserDTO() {
 		super();
@@ -80,14 +74,6 @@ public class UserDTO {
 
 	public void setConfirmedPassword(String repeatedPassword) {
 		this.confirmedPassword = repeatedPassword;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 	
 	
