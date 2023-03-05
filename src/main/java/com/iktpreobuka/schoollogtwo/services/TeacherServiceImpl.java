@@ -63,7 +63,7 @@ public class TeacherServiceImpl implements TeacherService {
 		teacher.setUsername(newTeacher.getUsername());
 		teacher.setPassword(Encryption.getPassEncoded(newTeacher.getPassword()));
 		teacher.setWeeklyClasses(newTeacher.getWeeklyClasses());
-		teacher.setRole(roleRepository.findByRoleName(newTeacher.getRole()));
+		teacher.setRole(roleRepository.findByRoleName("ROLE_TEACHER"));
 		
 		return teacherRepository.save(teacher);
 	}

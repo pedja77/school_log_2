@@ -33,7 +33,7 @@ public class ParentServiceImpl implements ParentService {
 		parent.setUsername(newParent.getUsername());
 		parent.setPassword(Encryption.getPassEncoded(newParent.getPassword()));
 		parent.setEmail(newParent.getEmail());
-		parent.setRole(roleRepository.findByRoleName(newParent.getRole()));
+		parent.setRole(roleRepository.findByRoleName("ROLE_PARENT"));
 		
 		return parentRepository.save(parent);	
 	}

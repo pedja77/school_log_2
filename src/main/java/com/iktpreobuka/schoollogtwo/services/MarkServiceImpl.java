@@ -17,6 +17,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.MarkDTO;
 import com.iktpreobuka.schoollogtwo.repositories.MarkRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SemesterRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentSubjectRepository;
+import com.iktpreobuka.schoollogtwo.repositories.TeacherRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherSubjectRepository;
 
@@ -33,6 +34,8 @@ public class MarkServiceImpl implements MarkService {
 	private SemesterRepository semesterRepository;
 	@Autowired
 	private MarkRepository markRepository;
+	@Autowired
+	private TeacherRepository teacherRepository;
 	
 	private boolean isTeachersStudent(TeacherEntity teacher, StudentEntity student) {
 		return teacher.getStudents().stream()
@@ -41,7 +44,7 @@ public class MarkServiceImpl implements MarkService {
 				.contains(student);
 	}
 	
-	private boolean isTeacherSubject(TeacherEntity teacher, SubjectEntity subject) {
+	private boolean isTeachersSubject(TeacherEntity teacher, SubjectEntity subject) {
 		return teacher.getSubjects().stream()
 				.map(e -> e.getSubject())
 				.toList()
@@ -56,17 +59,18 @@ public class MarkServiceImpl implements MarkService {
 	}
 	
 	@Override
-	public Optional<MarkEntity> createMark(MarkDTO newMark) {
+	public Optional<MarkEntity> createMark(MarkDTO newMark, String username) {
 		MarkEntity mark = new MarkEntity();
+		TeacherEntity t = teacherRepository.findByUsername(username);
 		TeacherStudentEntity teacher = teacherStudentRepo.findByTeacherIdAndStudentId(
-				newMark.getTeacherId(), newMark.getStudentId());
+				t.getId(), newMark.getStudentId());
 		StudentSubjectEntity student = studentSubjectRepo.findByStudentIdAndSubjectId(
 				newMark.getStudentId(), newMark.getSubjectId());
 		TeacherSubjectEntity subject = teacherSubjectRepo.findByTeacherIdAndSubjectId(
-				newMark.getTeacherId(), newMark.getSubjectId());
+				t.getId(), newMark.getSubjectId());
 		
 		if (isTeachersStudent(teacher.getTeacher(), student.getStudent()) &&
-				isTeacherSubject(teacher.getTeacher(), subject.getSubject()) &&
+				isTeachersSubject(teacher.getTeacher(), subject.getSubject()) &&
 				isStudentsSubject(student.getStudent(), subject.getSubject())) {
 			
 			mark.setValue(newMark.getValue());

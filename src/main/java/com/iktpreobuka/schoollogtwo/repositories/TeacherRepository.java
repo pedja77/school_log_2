@@ -6,4 +6,5 @@ import com.iktpreobuka.schoollogtwo.entities.TeacherEntity;
 
 public interface TeacherRepository extends CrudRepository<TeacherEntity, Integer> {
 
+	public TeacherEntity findByUsername(String username);
 }

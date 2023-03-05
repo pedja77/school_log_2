@@ -29,6 +29,8 @@ import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "mark")
@@ -41,12 +43,15 @@ public class MarkEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	protected Integer id;
 	
 	@Column(name = "value")
+	@JsonProperty(value = "Mark")
 	protected Integer value;
 	
 	@Column(name = "coment")
+	@JsonProperty(value = "Comment")
 	protected String comment;
 	
 	@Column(name = "mark_date")

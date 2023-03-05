@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 public class MarkDTO {
 
-	@NotNull
-	@JsonProperty(value = "Teacher")
-	private Integer teacherId;
+//	@NotNull
+//	@JsonProperty(value = "Teacher")
+//	private Integer teacherId;
 	
 	@NotNull
 	@JsonProperty(value = "Student")
@@ -45,20 +45,20 @@ public class MarkDTO {
 
 	public MarkDTO(Integer teacherId, Integer studentId, Integer subjectId, Integer value, String comment) {
 		super();
-		this.teacherId = teacherId;
+//		this.teacherId = teacherId;
 		this.studentId = studentId;
 		this.subjectId = subjectId;
 		this.value = value;
 		this.comment = comment;
 	}
 
-	public Integer getTeacherId() {
-		return teacherId;
-	}
-
-	public void setTeacherId(Integer teacherId) {
-		this.teacherId = teacherId;
-	}
+//	public Integer getTeacherId() {
+//		return teacherId;
+//	}
+//
+//	public void setTeacherId(Integer teacherId) {
+//		this.teacherId = teacherId;
+//	}
 
 	public Integer getStudentId() {
 		return studentId;

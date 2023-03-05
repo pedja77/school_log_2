@@ -7,7 +7,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.MarkDTO;
 
 public interface MarkService {
 
-	public Optional<MarkEntity> createMark(MarkDTO newMark);
+	public Optional<MarkEntity> createMark(MarkDTO newMark, String teacher);
 	public MarkDTO createFinalMark(MarkDTO finalMark);
 	public MarkDTO updateMark(Integer id, MarkDTO updatedMark);
 	public MarkEntity deleteMark(Integer id);

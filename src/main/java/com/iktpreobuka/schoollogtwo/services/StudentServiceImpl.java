@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
 		student.setUsername(newStudent.getUsername());
 		student.setPassword(Encryption.getPassEncoded(newStudent.getPassword()));
 		student.setDateOfBirth(LocalDate.parse(newStudent.getDateOfBirth(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-		student.setRole(roleRepository.findByRoleName(newStudent.getRole()));
+		student.setRole(roleRepository.findByRoleName("ROLE_STUDENT"));
 		student.setGrade(gradeRepository.findByValue(newStudent.getGrade()));
 		studentRepository.save(student);
 		
