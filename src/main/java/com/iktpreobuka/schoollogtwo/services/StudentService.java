@@ -13,4 +13,5 @@ public interface StudentService {
 	public StudentDTO updateStudent(Integer id, StudentDTO updatedStudent);
 	public StudentEntity addSubjectsToStudent(Integer id, SubjectsCollectionDTO subjects);
 	public StudentsMarksResDTO getStudentsMarks(String username);
+	public StudentsMarksResDTO getStudentsMarksBySubject(String username, Integer subjectId);
 }

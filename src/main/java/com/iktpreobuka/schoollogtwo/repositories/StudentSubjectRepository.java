@@ -11,5 +11,6 @@ import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
 public interface StudentSubjectRepository extends CrudRepository<StudentSubjectEntity, Integer> {
 
 	public StudentSubjectEntity findByStudentIdAndSubjectId(Integer studentId, Integer subjectId);
+	public StudentSubjectEntity findByStudentUsernameAndSubjectId(String username, Integer subjectId);
 	public List<StudentSubjectEntity> findByStudent(StudentEntity student);
 }

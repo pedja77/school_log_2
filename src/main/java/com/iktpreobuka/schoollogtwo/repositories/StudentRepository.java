@@ -8,8 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
+import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
 
 public interface StudentRepository extends CrudRepository<StudentEntity, Integer> {
 
 	public StudentEntity findByUsername(String username);
+	public StudentSubjectEntity findByUsernameAndSubjectsId(String username, Integer subjectId);
 }

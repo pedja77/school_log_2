@@ -87,12 +87,20 @@ public class StudentController {
 	}
 	
 	@GetMapping(path = "/marks")
-	public ResponseEntity<?> methodName(Principal p) {
+	public ResponseEntity<?> getAllMarks(Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		
 		return new ResponseEntity<>(studentService.getStudentsMarks(p.getName()), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/marks/subject/{id}")
+	public ResponseEntity<?> getAllMarksBySubject(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		return new ResponseEntity<>(studentService.getStudentsMarksBySubject(p.getName(), id), HttpStatus.OK);
 	}
 	
 }

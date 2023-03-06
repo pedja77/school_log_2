@@ -49,6 +49,19 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private MarkRepository markRepository;
 	
+	private MarkResDTO markToDTO(MarkEntity mark) {
+		MarkResDTO markDto = new MarkResDTO();
+		markDto.setTeacher(mark.getTeacher().getTeacher().getFullName());
+		markDto.setValue(mark.getValue());
+		markDto.setComment(mark.getComment());
+		markDto.setChangedOn(mark.getUpdatedOn().toLocalDate());
+		markDto.setGivenOn(mark.getCreatedOn().toLocalDate());
+//		markDto.setSemester(mark.getSemester().getSemester());
+//		markDto.setSchoolYear(mark.getSemester().getSchoolYear().getName());
+		markDto.setIsFinal(mark instanceof FinalMarkEntity);
+		return markDto;
+	}
+	
 	@Override
 	public StudentDTO createStudent(StudentDTO newStudent) {
 		StudentEntity student = new StudentEntity();
@@ -155,18 +168,22 @@ public class StudentServiceImpl implements StudentService {
 		
 		return studentsMarks;
 	}
-	
-	private MarkResDTO markToDTO(MarkEntity mark) {
-		MarkResDTO markDto = new MarkResDTO();
-		markDto.setTeacher(mark.getTeacher().getTeacher().getFullName());
-		markDto.setValue(mark.getValue());
-		markDto.setComment(mark.getComment());
-		markDto.setChangedOn(mark.getUpdatedOn().toLocalDate());
-		markDto.setGivenOn(mark.getCreatedOn().toLocalDate());
-//		markDto.setSemester(mark.getSemester().getSemester());
-//		markDto.setSchoolYear(mark.getSemester().getSchoolYear().getName());
-		markDto.setIsFinal(mark instanceof FinalMarkEntity);
-		return markDto;
+
+	@Override
+	public StudentsMarksResDTO getStudentsMarksBySubject(String username, Integer subjectId) {
+		MarksBySubjectResDTO marks = new MarksBySubjectResDTO();
+		StudentsMarksResDTO studentsMarks = new StudentsMarksResDTO();
+		StudentSubjectEntity subject = studentSubjectRepository.findByStudentUsernameAndSubjectId(username, subjectId);
+		marks.setMarks(markRepository.findByStudent(subject).stream()
+				.map(m -> markToDTO(m)).toList());
+		marks.setSubject(subject.getSubject().getSubjectName());
+		studentsMarks.getMarks().put(marks.getSubject(), marks.getMarks());
+		studentsMarks.setStudent(subject.getStudent().getFullName());
+		studentsMarks.setGrade(subject.getStudent().getGrade().getValue());
+		
+		return studentsMarks;
 	}
+	
+	
 
 }
