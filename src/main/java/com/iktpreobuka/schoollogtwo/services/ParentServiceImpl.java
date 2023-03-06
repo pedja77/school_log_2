@@ -1,6 +1,7 @@
 package com.iktpreobuka.schoollogtwo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
+import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.ParentResDTO;
 import com.iktpreobuka.schoollogtwo.repositories.ParentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.ParentStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
@@ -23,6 +26,8 @@ public class ParentServiceImpl implements ParentService {
 	private UserRoleRepository roleRepository;
 	@Autowired
 	private ParentStudentRepository parentStudentRepository;
+	@Autowired
+	private StudentService studentService;
 
 	@Override
 	@Transactional
@@ -75,6 +80,41 @@ public class ParentServiceImpl implements ParentService {
 //		}
 		parentRepository.delete(parent);
 		return parent;
+	}
+
+	@Override
+	public ParentResDTO getAllMarks(String username) {
+		ParentEntity parent = parentRepository.findByUsername(username);
+		ParentResDTO parentDto = new ParentResDTO();
+		for (ParentStudentEntity e: parent.getStudents()) {
+			parentDto.addStudentsMarks(studentService.getStudentsMarks(e.getStudent().getUsername()));
+		}
+		return parentDto;
+	}
+
+	@Override
+	public Optional<ParentResDTO> getMarksByStudent(String username, Integer studentId) {
+		ParentStudentEntity parentStudent = parentStudentRepository.findByParentUsernameAndStudentId(username, studentId);
+		ParentResDTO parentDto = new ParentResDTO();
+		if (parentStudent != null) {
+			parentDto.addStudentsMarks(studentService.getStudentsMarks(parentStudent.getStudent().getUsername()));
+			return Optional.of(parentDto);
+		}
+		
+		return Optional.ofNullable(null);
+	}
+
+	@Override
+	public Optional<ParentResDTO> getMarksByStudentAndSubject(String username, Integer studentId, Integer subjectId) {
+		ParentStudentEntity parentStudent = parentStudentRepository.findByParentUsernameAndStudentId(username, studentId);
+		ParentResDTO parentDto = new ParentResDTO();
+		if (parentStudent != null) {
+			parentDto.addStudentsMarks(studentService.getStudentsMarksBySubject(
+					parentStudent.getStudent().getUsername(), subjectId).orElseThrow());
+			return Optional.of(parentDto);
+		}
+		
+		return Optional.ofNullable(null);
 	}
 
 }

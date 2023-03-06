@@ -12,5 +12,6 @@ public interface ParentStudentRepository extends CrudRepository<ParentStudentEnt
 
 	public List<ParentStudentEntity> findByStudent(StudentEntity student);
 	public List<ParentStudentEntity> findByParent(ParentEntity parent);
+	public ParentStudentEntity findByParentUsernameAndStudentId(String username, Integer id);
 	public boolean existsByParent(ParentEntity parent);
 }

@@ -8,17 +8,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ParentResDTO {
 
 	@JsonProperty(value = "Students")
-	private List<?> marksByStudents = new ArrayList<StudentsMarksResDTO>();
+	private List<StudentsMarksResDTO> marksByStudents = new ArrayList<StudentsMarksResDTO>();
 
 	public ParentResDTO() {
 		super();
+	}
+	
+	public void addStudentsMarks(StudentsMarksResDTO marks) {
+		this.marksByStudents.add(marks);
 	}
 
 	public List<?> getMarksByStudents() {
 		return marksByStudents;
 	}
 
-	public void setMarksByStudents(List<?> marksByStudents) {
+	public void setMarksByStudents(List<StudentsMarksResDTO> marksByStudents) {
 		this.marksByStudents = marksByStudents;
 	}
 	

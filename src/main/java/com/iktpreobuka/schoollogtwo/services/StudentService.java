@@ -1,5 +1,7 @@
 package com.iktpreobuka.schoollogtwo.services;
 
+import java.util.Optional;
+
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
@@ -13,5 +15,5 @@ public interface StudentService {
 	public StudentDTO updateStudent(Integer id, StudentDTO updatedStudent);
 	public StudentEntity addSubjectsToStudent(Integer id, SubjectsCollectionDTO subjects);
 	public StudentsMarksResDTO getStudentsMarks(String username);
-	public StudentsMarksResDTO getStudentsMarksBySubject(String username, Integer subjectId);
+	public Optional<StudentsMarksResDTO> getStudentsMarksBySubject(String username, Integer subjectId);
 }

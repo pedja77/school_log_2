@@ -3,6 +3,7 @@ package com.iktpreobuka.schoollogtwo.services;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -170,18 +171,22 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentsMarksResDTO getStudentsMarksBySubject(String username, Integer subjectId) {
+	public Optional<StudentsMarksResDTO> getStudentsMarksBySubject(String username, Integer subjectId) {
 		MarksBySubjectResDTO marks = new MarksBySubjectResDTO();
 		StudentsMarksResDTO studentsMarks = new StudentsMarksResDTO();
 		StudentSubjectEntity subject = studentSubjectRepository.findByStudentUsernameAndSubjectId(username, subjectId);
-		marks.setMarks(markRepository.findByStudent(subject).stream()
-				.map(m -> markToDTO(m)).toList());
-		marks.setSubject(subject.getSubject().getSubjectName());
-		studentsMarks.getMarks().put(marks.getSubject(), marks.getMarks());
-		studentsMarks.setStudent(subject.getStudent().getFullName());
-		studentsMarks.setGrade(subject.getStudent().getGrade().getValue());
+		if (subject != null) {
+			marks.setMarks(markRepository.findByStudent(subject).stream()
+					.map(m -> markToDTO(m)).toList());
+			marks.setSubject(subject.getSubject().getSubjectName());
+			studentsMarks.getMarks().put(marks.getSubject(), marks.getMarks());
+			studentsMarks.setStudent(subject.getStudent().getFullName());
+			studentsMarks.setGrade(subject.getStudent().getGrade().getValue());
+			
+			return Optional.of(studentsMarks);
+		}
 		
-		return studentsMarks;
+		return Optional.ofNullable(null);
 	}
 	
 	

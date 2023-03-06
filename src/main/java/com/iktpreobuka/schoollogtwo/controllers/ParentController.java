@@ -94,4 +94,32 @@ public class ParentController {
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		return new ResponseEntity<>(parentService.deleteParent(id), HttpStatus.OK);
 	}
+	
+	@GetMapping(path = "/marks")
+	public ResponseEntity<?> getAllMarksForAllStudents(Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(parentService.getAllMarks(p.getName()), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/marks/student/{id}")
+	public ResponseEntity<?> getMarksByStudent(@PathVariable Integer id, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(parentService.getMarksByStudent(p.getName(), id)
+				.orElseThrow(), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/marks/student/{studentId}/subject/{subjectId}")
+	public ResponseEntity<?> getMarksByStudentAndSubject(@PathVariable Integer studentId, @PathVariable Integer subjectId, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		return new ResponseEntity<>(parentService.getMarksByStudentAndSubject(p.getName(), studentId, subjectId)
+				.orElseThrow(), HttpStatus.OK);
+	}
 }
