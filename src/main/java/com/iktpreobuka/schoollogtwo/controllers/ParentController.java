@@ -76,7 +76,7 @@ public class ParentController {
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateParent(@PathVariable Integer id,  @RequestBody ParentDTO updatedParent, Principal p) {
+	public ResponseEntity<?> updateParent(@PathVariable Integer id, @Valid @RequestBody ParentDTO updatedParent, Principal p) {
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
