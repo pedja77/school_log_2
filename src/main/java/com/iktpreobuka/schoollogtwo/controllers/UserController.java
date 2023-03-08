@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.schoollogtwo.entities.dto.UserDTO;
 import com.iktpreobuka.schoollogtwo.repositories.UserRepository;
+import com.iktpreobuka.schoollogtwo.services.UserService;
 import com.iktpreobuka.schoollogtwo.util.UserMapper;
 
 @RestController
@@ -23,7 +24,7 @@ public class UserController {
 	@Autowired
 	private UserMapper mapper;
 	@Autowired
-	UserRepository userRepository;
+	UserService userService;
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
@@ -32,8 +33,7 @@ public class UserController {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(userRepository.save(
-				mapper.mapToUserEntity(newUser)
-				), HttpStatus.CREATED);
+		
+		return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.CREATED);
 	}
 }

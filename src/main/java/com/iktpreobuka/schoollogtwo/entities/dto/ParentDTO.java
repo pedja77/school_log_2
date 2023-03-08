@@ -1,5 +1,7 @@
 package com.iktpreobuka.schoollogtwo.entities.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -11,6 +13,8 @@ public class ParentDTO extends UserDTO {
 	@Email(message = "Email is not valid.")
 	@JsonProperty(value = "email")
 	private String email;
+	
+	private List<Integer> studentIds;
 	
 	public ParentDTO() {
 		super();
@@ -54,6 +58,14 @@ public class ParentDTO extends UserDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Integer> getStudentIds() {
+		return studentIds;
+	}
+
+	public void setStudentIds(List<Integer> studentIds) {
+		this.studentIds = studentIds;
 	}
 
 //	public String getRepeatedPassword() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,7 +48,7 @@ public abstract class UserMapper {
 	public abstract TeacherEntity teacherToEntity(TeacherDTO dto);
 
 	public abstract ParentEntity parentToEntity(ParentDTO dto);
-	
+	@Mapping(target = "dateOfBirth", source = "dto.dateOfBirth", dateFormat = "dd-MM-yyyy")
 	public abstract StudentEntity studentToEntity(StudentDTO dto);
 	
 	public abstract AdminEntity adminToEntity(AdminDTO dto);
