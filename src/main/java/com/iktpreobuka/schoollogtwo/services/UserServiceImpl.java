@@ -85,7 +85,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserEntity getUser(Integer id) {
+		
 		return userRepository.findById(id).orElseThrow();
+	}
+
+	@Override
+	public List<UserEntity> getUsers() {
+		return (List<UserEntity>) userRepository.findAll();
 	}
 
 }

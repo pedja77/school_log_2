@@ -67,14 +67,4 @@ public class LoginController {
 		return new ResponseEntity<>("Wrong credentials", HttpStatus.UNAUTHORIZED);
 	}
 	
-	@GetMapping
-	public ResponseEntity<?> getAllUsers(Principal p) {
-		String methodName = new Object() {}
-	      .getClass()
-	      .getEnclosingMethod()
-	      .getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		
-		return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
-	}
 }

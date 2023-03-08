@@ -35,15 +35,15 @@ public class ParentController {
 	@Autowired
 	private ParentService parentService;
 	
-	@Autowired
-	UserCustomValidator userValidator;
+//	@Autowired
+//	UserCustomValidator userValidator;
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
-	@InitBinder
-	protected void initBinder(final WebDataBinder binder) {
-		binder.addValidators(userValidator);
-	}
+//	@InitBinder
+//	protected void initBinder(final WebDataBinder binder) {
+//		binder.addValidators(userValidator);
+//	}
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getParentById(@PathVariable Integer id, Principal p) {

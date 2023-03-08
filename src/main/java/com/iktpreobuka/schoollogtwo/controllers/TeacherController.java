@@ -34,23 +34,23 @@ public class TeacherController {
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
-	@PostMapping
-	public ResponseEntity<?> createTeacher(@RequestBody TeacherDTO newTeacher, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		
-		return new ResponseEntity<>(teacherService.createTeacher(newTeacher), HttpStatus.CREATED);
-	}
-	
-	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateTeacher(@PathVariable Integer id, @RequestBody TeacherDTO updatedTeacher, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		
-		return new ResponseEntity<>(teacherService.updateTeacher(id, updatedTeacher), HttpStatus.OK);
-	} 
+//	@PostMapping
+//	public ResponseEntity<?> createTeacher(@RequestBody TeacherDTO newTeacher, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		
+//		return new ResponseEntity<>(teacherService.createTeacher(newTeacher), HttpStatus.CREATED);
+//	}
+//	
+//	@PutMapping(path = "/{id}")
+//	public ResponseEntity<?> updateTeacher(@PathVariable Integer id, @RequestBody TeacherDTO updatedTeacher, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		
+//		return new ResponseEntity<>(teacherService.updateTeacher(id, updatedTeacher), HttpStatus.OK);
+//	} 
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getTeacherById(@PathVariable Integer id, Principal p) {
@@ -61,14 +61,14 @@ public class TeacherController {
 		return new ResponseEntity<>(teacherRepository.findById(id).orElseThrow(), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteTeacher(@PathVariable Integer id, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		
-		return new ResponseEntity<>(teacherService.deleteTeacher(id), HttpStatus.OK);
-	}
+//	@DeleteMapping(path = "/{id}")
+//	public ResponseEntity<?> deleteTeacher(@PathVariable Integer id, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		
+//		return new ResponseEntity<>(teacherService.deleteTeacher(id), HttpStatus.OK);
+//	}
 	
 	@PostMapping(path = "/bulk")
 	public ResponseEntity<?> bulkCreate(@RequestBody TeachersCollectionDTO teachers, Principal p) {

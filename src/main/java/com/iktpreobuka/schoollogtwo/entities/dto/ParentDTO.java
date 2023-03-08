@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,6 +15,8 @@ public class ParentDTO extends UserDTO {
 	@JsonProperty(value = "email")
 	private String email;
 	
+	@NotNull
+	@Size(min = 1, message = "Must have at least one child attending this school.")
 	private List<Integer> studentIds;
 	
 	public ParentDTO() {

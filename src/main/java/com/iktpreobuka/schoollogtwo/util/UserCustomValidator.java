@@ -4,8 +4,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.iktpreobuka.schoollogtwo.entities.dto.AdminDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.UserDTO;
 
 @Component
@@ -14,7 +16,9 @@ public class UserCustomValidator implements Validator{
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return ParentDTO.class.equals(clazz) ||
-			StudentDTO.class.equals(clazz);
+			StudentDTO.class.equals(clazz) ||
+			AdminDTO.class.equals(clazz) ||
+			TeacherDTO.class.equals(clazz);
 	}
 
 	@Override

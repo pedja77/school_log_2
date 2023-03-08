@@ -91,6 +91,7 @@ public class UserEntity {
 		this.role = role;
 	}
 	
+	@JsonIgnore
 	public String getFullName() {
 		return this.firstName + " " + this.lastName;
 	}

@@ -3,6 +3,7 @@ package com.iktpreobuka.schoollogtwo.entities.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -37,15 +38,18 @@ public class UserDTO {
 	@JsonProperty(value = "username")
 	private String username;
 	
+	@JsonIgnore
 	@NotNull(message = "Password must be provided.")
 	@Size(min = 5, max = 10, message = "Password must be between {min} and {max} characters long.")
 	@JsonProperty(value = "password")
 	private String password;
 	
-	//@NotNull(message = "Confirmed password must be provided")
+	@JsonIgnore
+	@NotNull(message = "Confirmed password must be provided")
 	@Size(min = 5, max = 10, message = "Confirmed password must be between {min} and {max} characters long and must match with password.")
 	@JsonProperty(value = "confirmedPassword")
 	private String confirmedPassword;
+	
 	
 	@NotNull(message = "User role must be provided")
 	private String role;
