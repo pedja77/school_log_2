@@ -91,6 +91,12 @@ public class TeacherServiceImpl implements TeacherService {
 	@Transactional
 	public TeacherEntity deleteTeacher(Integer id) {
 		TeacherEntity teacher = teacherRepository.findById(id).orElseThrow();
+		
+		return deleteTeacher(teacher);
+	}
+	
+	@Override
+	public TeacherEntity deleteTeacher(TeacherEntity teacher) {
 		teacherStudentRepository.deleteAll(teacher.getStudents());
 		teacherSubjectRepository.deleteAll(teacher.getSubjects());
 		
@@ -150,4 +156,6 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		return Optional.ofNullable(null);
 	}
+
+	
 }

@@ -71,13 +71,18 @@ public class ParentServiceImpl implements ParentService {
 	public ParentEntity deleteParent(Integer id) {
 		ParentEntity parent = parentRepository.findById(id).get();
 		
-		parentStudentRepository.deleteAll(parent.getStudents());
-//		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByParent(parent);
-//		// Delete all the references from parent to student on both sides
-//		for (ParentStudentEntity ps: parentStudents) {
-//			parentStudentRepository.delete(ps);
-//			ps.getStudent().getParents().remove(ps);
-//		}
+		return deleteParent(parent);
+	}
+	
+	@Override
+	public ParentEntity deleteParent(ParentEntity parent) {
+		//parentStudentRepository.deleteAll(parent.getStudents());
+		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByParent(parent);
+		// Delete all the references from parent to student on both sides
+		for (ParentStudentEntity ps: parentStudents) {
+			parentStudentRepository.delete(ps);
+			ps.getStudent().getParents().remove(ps);
+		}
 		parentRepository.delete(parent);
 		return parent;
 	}

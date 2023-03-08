@@ -8,4 +8,5 @@ public interface AdminService {
 	public AdminEntity createAdmin(UserDTO user);
 	public AdminEntity updateAdmin(Integer id, UserDTO user);
 	public AdminEntity deleteAdmin(Integer id);
+	public AdminEntity deleteAdmin(AdminEntity admin);
 }

@@ -7,7 +7,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "admin")@SQLDelete(sql = "UPDATE parent SET deleted = true WHERE user_id=? AND version=?")
+@Table(name = "admin")
+@SQLDelete(sql = "UPDATE admin SET deleted = true WHERE user_id=? AND version=?")
 @Where(clause = "deleted = false")
 public class AdminEntity extends UserEntity {
 

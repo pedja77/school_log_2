@@ -11,6 +11,7 @@ public interface ParentService {
 	public ParentEntity createParent(ParentDTO newParent);
 	public ParentEntity updateParent(Integer id, ParentDTO updatedParent);
 	public ParentEntity deleteParent(Integer id);
+	public ParentEntity deleteParent(ParentEntity parent);
 	public ParentResDTO getAllMarks(String username);
 	public Optional<ParentResDTO> getMarksByStudent(String username, Integer studentId);
 	public Optional<ParentResDTO> getMarksByStudentAndSubject(String username, Integer studentId, Integer subjectId);

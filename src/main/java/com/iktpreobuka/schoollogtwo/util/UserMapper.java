@@ -5,6 +5,7 @@ import java.util.List;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -100,4 +101,6 @@ public abstract class UserMapper {
 		
 		return null;
 	}
+	
+	public abstract UserEntity updateUserFromDto(UserDTO updatedUser, @MappingTarget UserEntity user);
 }

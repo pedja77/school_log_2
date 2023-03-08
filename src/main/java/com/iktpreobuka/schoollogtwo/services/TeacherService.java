@@ -14,6 +14,7 @@ public interface TeacherService {
 	public TeacherEntity createTeacher(TeacherDTO newTeacher);
 	public TeacherEntity updateTeacher(Integer id, TeacherDTO updatedTeacher);
 	public TeacherEntity deleteTeacher(Integer id);
+	public TeacherEntity deleteTeacher(TeacherEntity teacher);
 	public String bulkCreate(TeachersCollectionDTO teachers);
 	public TeacherEntity addSubjectsToTeacher(Integer id,SubjectsCollectionDTO subjects);
 	public Optional<TeacherEntity> addStudentsToTeacherBySubject(Integer teacherId, Integer subjectId, StudentsCollectionDTO students);

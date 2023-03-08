@@ -54,5 +54,11 @@ public class AdminServiceImpl implements AdminService {
 		return admin;
 	}
 
+	@Override
+	public AdminEntity deleteAdmin(AdminEntity admin) {
+		adminRepository.delete(admin);
+		return admin;
+	}
+
 	
 }

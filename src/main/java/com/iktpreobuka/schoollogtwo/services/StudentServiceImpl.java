@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
 	StudentSubjectRepository studentSubjectRepository;
 	@Autowired
 	private MarkRepository markRepository;
-	
+
 	private MarkResDTO markToDTO(MarkEntity mark) {
 		MarkResDTO markDto = new MarkResDTO();
 		markDto.setTeacher(mark.getTeacher().getTeacher().getFullName());
@@ -62,7 +62,7 @@ public class StudentServiceImpl implements StudentService {
 		markDto.setIsFinal(mark instanceof FinalMarkEntity);
 		return markDto;
 	}
-	
+
 	@Override
 	public StudentDTO createStudent(StudentDTO newStudent) {
 		StudentEntity student = new StudentEntity();
@@ -74,7 +74,7 @@ public class StudentServiceImpl implements StudentService {
 		student.setRole(roleRepository.findByRoleName("ROLE_STUDENT"));
 		student.setGrade(gradeRepository.findByValue(newStudent.getGrade()));
 		studentRepository.save(student);
-		
+
 		return newStudent;
 	}
 
@@ -86,9 +86,9 @@ public class StudentServiceImpl implements StudentService {
 
 		parentStudent.setParent(parent);
 		parentStudent.setStudent(student);
-		
+
 		parentStudentRepository.save(parentStudent);
-		
+
 		return student;
 	}
 
@@ -96,17 +96,37 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	public StudentEntity deleteStudent(Integer studentId) {
 		StudentEntity student = studentRepository.findById(studentId).get();
+//		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByStudent(student);
+//
+//		// Delete all the references from student to parent on both sides and also
+//		// delete parent if he doesn't have any more
+//		// students related to him
+//		for (ParentStudentEntity ps : parentStudents) {
+//			parentStudentRepository.delete(ps);
+//			ps.getParent().getStudents().remove(ps);
+//			if (ps.getParent().getStudents().size() == 0)
+//				parentRepository.delete(ps.getParent());
+//		}
+//
+//		studentRepository.delete(student);
+		return deleteStudent(student);
+	}
+
+	@Override
+	@Transactional
+	public StudentEntity deleteStudent(StudentEntity student) {
 		List<ParentStudentEntity> parentStudents = parentStudentRepository.findByStudent(student);
-		
-		// Delete all the references from student to parent on both sides and also delete parent if he doesn't have any more
+
+		// Delete all the references from student to parent on both sides and also
+		// delete parent if he doesn't have any more
 		// students related to him
-		for (ParentStudentEntity ps: parentStudents) {
+		for (ParentStudentEntity ps : parentStudents) {
 			parentStudentRepository.delete(ps);
 			ps.getParent().getStudents().remove(ps);
 			if (ps.getParent().getStudents().size() == 0)
 				parentRepository.delete(ps.getParent());
 		}
-		
+
 		studentRepository.delete(student);
 		return student;
 	}
@@ -116,7 +136,7 @@ public class StudentServiceImpl implements StudentService {
 	// Poredjenje datuma- obratiti paznju na formate!!!!!1
 	public StudentDTO updateStudent(Integer id, StudentDTO updatedStudent) {
 		StudentEntity student = studentRepository.findById(id).orElseThrow();
-		
+
 		if (updatedStudent.getFirstName() != null && !student.getFirstName().equals(updatedStudent.getFirstName()))
 			student.setFirstName(updatedStudent.getFirstName());
 		if (updatedStudent.getLastName() != null && !student.getLastName().equals(updatedStudent.getLastName()))
@@ -125,11 +145,13 @@ public class StudentServiceImpl implements StudentService {
 			student.setUsername(updatedStudent.getUsername());
 		if (updatedStudent.getPassword() != null && !student.getPassword().equals(updatedStudent.getPassword()))
 			student.setPassword(Encryption.getPassEncoded(updatedStudent.getPassword()));
-		if (updatedStudent.getDateOfBirth() != null && !student.getDateOfBirth().equals(updatedStudent.getDateOfBirth()))
-			student.setDateOfBirth(LocalDate.parse(updatedStudent.getDateOfBirth(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		if (updatedStudent.getDateOfBirth() != null
+				&& !student.getDateOfBirth().equals(updatedStudent.getDateOfBirth()))
+			student.setDateOfBirth(
+					LocalDate.parse(updatedStudent.getDateOfBirth(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		if (updatedStudent.getGrade() != null && !student.getGrade().getValue().equals(updatedStudent.getGrade()))
 			student.setGrade(gradeRepository.findByValue(updatedStudent.getGrade()));
-		
+
 		studentRepository.save(student);
 		return updatedStudent;
 	}
@@ -137,16 +159,14 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public StudentEntity addSubjectsToStudent(Integer id, SubjectsCollectionDTO newSubjects) {
 		StudentEntity student = studentRepository.findById(id).orElseThrow();
-		List<StudentSubjectEntity> subjects = newSubjects.getSubjects().stream()
-				.map(e -> {
-					StudentSubjectEntity subject = new StudentSubjectEntity();
-					subject.setStudent(student);
-					subject.setSubject(subjectRepository.findById(e).orElseThrow());
-					return subject;
-				})
+		List<StudentSubjectEntity> subjects = newSubjects.getSubjects().stream().map(e -> {
+			StudentSubjectEntity subject = new StudentSubjectEntity();
+			subject.setStudent(student);
+			subject.setSubject(subjectRepository.findById(e).orElseThrow());
+			return subject;
+		})
 				// Isfiltriraj samo predmete koji se slusaju u razredu koji ucenik pohadja
-				.filter(e -> e.getSubject().getGrade().getId() == student.getGrade().getId())
-				.toList();
+				.filter(e -> e.getSubject().getGrade().getId() == student.getGrade().getId()).toList();
 		studentSubjectRepository.saveAll(subjects);
 		return student;
 	}
@@ -155,18 +175,17 @@ public class StudentServiceImpl implements StudentService {
 	public StudentsMarksResDTO getStudentsMarks(String username) {
 		StudentEntity student = studentRepository.findByUsername(username);
 		StudentsMarksResDTO studentsMarks = new StudentsMarksResDTO();
-		
-		for (StudentSubjectEntity e: student.getSubjects()) {
+
+		for (StudentSubjectEntity e : student.getSubjects()) {
 			MarksBySubjectResDTO marks = new MarksBySubjectResDTO();
-			marks.setMarks(markRepository.findByStudent(e).stream()
-					.map(m -> markToDTO(m)).toList());
+			marks.setMarks(markRepository.findByStudent(e).stream().map(m -> markToDTO(m)).toList());
 			marks.setSubject(e.getSubject().getSubjectName());
 			studentsMarks.getMarks().put(marks.getSubject(), marks.getMarks());
 		}
-		
+
 		studentsMarks.setStudent(student.getFullName());
 		studentsMarks.setGrade(student.getGrade().getValue());
-		
+
 		return studentsMarks;
 	}
 
@@ -176,19 +195,16 @@ public class StudentServiceImpl implements StudentService {
 		StudentsMarksResDTO studentsMarks = new StudentsMarksResDTO();
 		StudentSubjectEntity subject = studentSubjectRepository.findByStudentUsernameAndSubjectId(username, subjectId);
 		if (subject != null) {
-			marks.setMarks(markRepository.findByStudent(subject).stream()
-					.map(m -> markToDTO(m)).toList());
+			marks.setMarks(markRepository.findByStudent(subject).stream().map(m -> markToDTO(m)).toList());
 			marks.setSubject(subject.getSubject().getSubjectName());
 			studentsMarks.getMarks().put(marks.getSubject(), marks.getMarks());
 			studentsMarks.setStudent(subject.getStudent().getFullName());
 			studentsMarks.setGrade(subject.getStudent().getGrade().getValue());
-			
+
 			return Optional.of(studentsMarks);
 		}
-		
+
 		return Optional.ofNullable(null);
 	}
-	
-	
 
 }
