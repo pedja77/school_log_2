@@ -27,27 +27,27 @@ public class AdminController {
 
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
-	@PostMapping
-	private ResponseEntity<?> createAdmin(@RequestBody UserDTO user, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(adminService.createAdmin(user), HttpStatus.CREATED);
-	}
-	
-	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateAdmin(@PathVariable Integer id, @RequestBody UserDTO updatedAdmin, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(adminService.updateAdmin(id, updatedAdmin), HttpStatus.OK);
-	}
-	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> methodName(@PathVariable Integer id,@RequestBody UserDTO user, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(adminService.updateAdmin(id, user), HttpStatus.OK);
-	}
+//	@PostMapping
+//	private ResponseEntity<?> createAdmin(@RequestBody UserDTO user, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		return new ResponseEntity<>(adminService.createAdmin(user), HttpStatus.CREATED);
+//	}
+//	
+//	@PutMapping(path = "/{id}")
+//	public ResponseEntity<?> updateAdmin(@PathVariable Integer id, @RequestBody UserDTO updatedAdmin, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		return new ResponseEntity<>(adminService.updateAdmin(id, updatedAdmin), HttpStatus.OK);
+//	}
+//	
+//	@DeleteMapping(path = "/{id}")
+//	public ResponseEntity<?> methodName(@PathVariable Integer id,@RequestBody UserDTO user, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		return new ResponseEntity<>(adminService.updateAdmin(id, user), HttpStatus.OK);
+//	}
 }

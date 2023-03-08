@@ -65,35 +65,35 @@ public class ParentController {
 		return new ResponseEntity<>(parentRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> createParent(@Valid @RequestBody ParentDTO newParent, Principal p) {
-		String methodName = new Object() {}
-	      .getClass()
-	      .getEnclosingMethod()
-	      .getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(parentService.createParent(newParent), HttpStatus.CREATED);
-	}
-	
-	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateParent(@PathVariable Integer id, @Valid @RequestBody ParentDTO updatedParent, Principal p) {
-		String methodName = new Object() {}
-	      .getClass()
-	      .getEnclosingMethod()
-	      .getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(parentService.updateParent(id, updatedParent), HttpStatus.OK);
-	}
-	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteParent(@PathVariable Integer id, Principal p) {
-		String methodName = new Object() {}
-	      .getClass()
-	      .getEnclosingMethod()
-	      .getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(parentService.deleteParent(id), HttpStatus.OK);
-	}
+//	@PostMapping
+//	public ResponseEntity<?> createParent(@Valid @RequestBody ParentDTO newParent, Principal p) {
+//		String methodName = new Object() {}
+//	      .getClass()
+//	      .getEnclosingMethod()
+//	      .getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		return new ResponseEntity<>(parentService.createParent(newParent), HttpStatus.CREATED);
+//	}
+//	
+//	@PutMapping(path = "/{id}")
+//	public ResponseEntity<?> updateParent(@PathVariable Integer id, @Valid @RequestBody ParentDTO updatedParent, Principal p) {
+//		String methodName = new Object() {}
+//	      .getClass()
+//	      .getEnclosingMethod()
+//	      .getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		return new ResponseEntity<>(parentService.updateParent(id, updatedParent), HttpStatus.OK);
+//	}
+//	
+//	@DeleteMapping(path = "/{id}")
+//	public ResponseEntity<?> deleteParent(@PathVariable Integer id, Principal p) {
+//		String methodName = new Object() {}
+//	      .getClass()
+//	      .getEnclosingMethod()
+//	      .getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//		return new ResponseEntity<>(parentService.deleteParent(id), HttpStatus.OK);
+//	}
 	
 	@GetMapping(path = "/marks")
 	public ResponseEntity<?> getAllMarksForAllStudents(Principal p) {
