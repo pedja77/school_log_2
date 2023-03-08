@@ -2,7 +2,9 @@ package com.iktpreobuka.schoollogtwo.util;
 
 import java.util.List;
 
-
+import org.mapstruct.BeforeMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iktpreobuka.schoollogtwo.entities.AdminEntity;
@@ -23,6 +25,7 @@ import com.iktpreobuka.schoollogtwo.repositories.ParentStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
 
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class UserMapper {
 	
 	@Autowired
@@ -65,25 +68,10 @@ public abstract class UserMapper {
 //		return Encryption.getPassEncoded(password);
 //	}
 	
+	@BeforeMapping
 	protected void encryptPassword(UserDTO dto) {
 		dto.setPassword(Encryption.getPassEncoded(dto.getPassword()));
 	}
-	
-//	@AfterMapping 
-//	protected void addStudentsToParent(UserDTO dto, @MappingTarget UserEntity user) {
-//		if (dto instanceof ParentDTO) {
-//			List<ParentStudentEntity> students = ((ParentDTO) dto).getStudents().stream()
-//					.map(e -> {
-//						ParentStudentEntity ps = new ParentStudentEntity();
-//						ps.setParent((ParentEntity) user);
-//						ps.setStudent(studentRepository.findById(e).orElseThrow());
-//						return ps;
-//					})
-//					.toList();
-//			((ParentEntity) user).setStudents(students);
-//		}
-//		
-//	} 
 	
 	
 	public UserDTO mapToUserDTO(UserEntity user) {

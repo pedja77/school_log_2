@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TeacherDTO extends UserDTO {
 
-	@JsonProperty(value = "Weekly classes")
+	@JsonProperty(value = "weeklyClasses")
 	private Integer weeklyClasses;
 
 	public TeacherDTO() {

@@ -30,7 +30,7 @@ import io.jsonwebtoken.Jwts;
 
 @RestController
 @RequestMapping(path = "/api/v1/users")
-public class UserController {
+public class LoginController {
 
 	@Autowired
 	private UserRepository userRepository;
