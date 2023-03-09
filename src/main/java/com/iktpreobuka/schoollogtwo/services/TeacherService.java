@@ -8,6 +8,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.StudentsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeachersCollectionDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.TeacherResDTO;
 
 public interface TeacherService {
 
@@ -18,4 +19,5 @@ public interface TeacherService {
 	public String bulkCreate(TeachersCollectionDTO teachers);
 	public TeacherEntity addSubjectsToTeacher(Integer id,SubjectsCollectionDTO subjects);
 	public Optional<TeacherEntity> addStudentsToTeacherBySubject(Integer teacherId, Integer subjectId, StudentsCollectionDTO students);
+	public TeacherResDTO marksByStudentAndSubject(Integer studentId, Integer subjectId, String teachersUsername);
 }

@@ -17,6 +17,8 @@ import com.iktpreobuka.schoollogtwo.entities.dto.StudentsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeachersCollectionDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.StudentsMarksResDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.responses.TeacherResDTO;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherRepository;
@@ -40,6 +42,8 @@ public class TeacherServiceImpl implements TeacherService {
 	private SubjectRepository subjectRepository;
 	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private StudentService studentService;
 	
 	private boolean isStudentsSubject(StudentEntity student, SubjectEntity subject) {
 		return student.getSubjects().stream()
@@ -155,6 +159,16 @@ public class TeacherServiceImpl implements TeacherService {
 		}
 		
 		return Optional.ofNullable(null);
+	}
+
+	@Override
+	public TeacherResDTO marksByStudentAndSubject(Integer studentId, Integer subjectId, String teachersUsername) {
+		TeacherResDTO response = new TeacherResDTO();
+		StudentEntity student = studentRepository.findById(studentId).orElseThrow();
+		StudentsMarksResDTO studentsMarks = studentService
+				.getStudentsMarksBySubject(student.getUsername(), subjectId).orElseThrow();
+		response.setStudentsMarks(studentsMarks);
+		return response;
 	}
 
 	

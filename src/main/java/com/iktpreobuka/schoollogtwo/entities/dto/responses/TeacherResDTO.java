@@ -6,4 +6,18 @@ public class TeacherResDTO {
 
 	@JsonProperty(value = "Students marks")
 	StudentsMarksResDTO studentsMarks;
+
+	public TeacherResDTO() {
+		super();
+	}
+
+	public StudentsMarksResDTO getStudentsMarks() {
+		return studentsMarks;
+	}
+
+	public void setStudentsMarks(StudentsMarksResDTO studentsMarks) {
+		this.studentsMarks = studentsMarks;
+	}
+	
+	
 }
