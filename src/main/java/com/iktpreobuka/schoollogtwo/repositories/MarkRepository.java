@@ -10,4 +10,5 @@ import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
 public interface MarkRepository extends CrudRepository<MarkEntity, Integer> {
 
 	public List<MarkEntity> findByStudent(StudentSubjectEntity student);
+	public Boolean existsByStudentIdAndSubjectId(Integer studentId, Integer subjectId);
 }

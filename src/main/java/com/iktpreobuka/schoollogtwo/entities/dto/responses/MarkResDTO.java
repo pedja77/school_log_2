@@ -7,11 +7,17 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder(value = {"teacher", "value", "comment", "semester", "schoolYear", "givenOn", "changedOn", "isFinal"} )
+@JsonPropertyOrder(value = {"id", "teacher", "student", "value", "comment", "semester", "schoolYear", "givenOn", "changedOn", "isFinal"} )
 public class MarkResDTO {
 	
 	@JsonProperty(value = "Teacher")
 	private String teacher;
+	
+	@JsonProperty(value = "Student")
+	private String student;
+	
+	@JsonProperty(value = "Id")
+	private Integer id;
 
 	@JsonProperty(value = "Mark")
 	private Integer value;
@@ -102,6 +108,22 @@ public class MarkResDTO {
 
 	public void setTeacher(String teacher) {
 		this.teacher = teacher;
+	}
+
+	public String getStudent() {
+		return student;
+	}
+
+	public void setStudent(String student) {
+		this.student = student;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
