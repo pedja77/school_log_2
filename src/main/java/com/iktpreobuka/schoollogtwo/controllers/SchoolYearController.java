@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class SchoolYearController {
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
+	@Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_STUDENT", "ROLE_PARENT"})
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getSchoolYearById(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
@@ -42,6 +44,7 @@ public class SchoolYearController {
 		return new ResponseEntity<>(year, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping
 	public ResponseEntity<?> createSchoolYear(@RequestBody SchoolYearDTO newSchoolYear, Principal p) {
 		String methodName = new Object() {
@@ -58,6 +61,7 @@ public class SchoolYearController {
 		return new ResponseEntity<>(newSchoolYear, HttpStatus.CREATED);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> updateSchoolYear(@PathVariable Integer id, @RequestBody SchoolYearDTO updatedSchoolYear, Principal p) {
 		String methodName = new Object() {
@@ -80,6 +84,7 @@ public class SchoolYearController {
 		return new ResponseEntity<>(updatedSchoolYear, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<?> deleteSchoolYear(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {

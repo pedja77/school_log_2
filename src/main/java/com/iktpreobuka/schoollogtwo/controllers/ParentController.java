@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +45,7 @@ public class ParentController {
 //	protected void initBinder(final WebDataBinder binder) {
 //		binder.addValidators(userValidator);
 //	}
-	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getParentById(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {}
@@ -55,6 +56,7 @@ public class ParentController {
 		return new ResponseEntity<>(parentRepository.findById(id).get(), HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping
 	public ResponseEntity<?> allParents(Principal p) {
 		String methodName = new Object() {}
@@ -94,7 +96,7 @@ public class ParentController {
 //		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 //		return new ResponseEntity<>(parentService.deleteParent(id), HttpStatus.OK);
 //	}
-	
+	@Secured({"ROLE_ADMIN", "ROLE_PARENT"})
 	@GetMapping(path = "/marks")
 	public ResponseEntity<?> getAllMarksForAllStudents(Principal p) {
 		String methodName = new Object() {

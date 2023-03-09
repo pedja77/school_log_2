@@ -10,6 +10,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,7 @@ public class AdminController {
 //		return new ResponseEntity<>(adminService.updateAdmin(id, user), HttpStatus.OK);
 //	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping(path = "logs")
 	public ResponseEntity<?> getLogs(Principal p) throws SecurityException, IOException {
 		String methodName = new Object() {

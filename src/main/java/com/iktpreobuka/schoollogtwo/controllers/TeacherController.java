@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,7 @@ public class TeacherController {
 //		return new ResponseEntity<>(teacherService.updateTeacher(id, updatedTeacher), HttpStatus.OK);
 //	} 
 	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getTeacherById(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
@@ -70,6 +72,7 @@ public class TeacherController {
 //		return new ResponseEntity<>(teacherService.deleteTeacher(id), HttpStatus.OK);
 //	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping(path = "/bulk")
 	public ResponseEntity<?> bulkCreate(@RequestBody TeachersCollectionDTO teachers, Principal p) {
 		String methodName = new Object() {
@@ -79,6 +82,7 @@ public class TeacherController {
 		return new ResponseEntity<>(teacherService.bulkCreate(teachers), HttpStatus.CREATED);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}/subjects")
 	public ResponseEntity<?> addSubjectsToTeacher(@PathVariable Integer id, @RequestBody SubjectsCollectionDTO subjects, Principal p) {
 		String methodName = new Object() {
@@ -88,6 +92,7 @@ public class TeacherController {
 		return new ResponseEntity<>(teacherService.addSubjectsToTeacher(id, subjects), HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}/subject/{subjectId}/students")
 	public ResponseEntity<?> addStudentsToTeacher(@PathVariable Integer id,
 			@PathVariable Integer subjectId,  @RequestBody StudentsCollectionDTO students, Principal p) {

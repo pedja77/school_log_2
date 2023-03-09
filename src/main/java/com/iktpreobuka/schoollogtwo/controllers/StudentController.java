@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class StudentController {
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getStudentById(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
@@ -50,6 +52,7 @@ public class StudentController {
 //		return new ResponseEntity<>(studentService.createStudent(newStudent), HttpStatus.CREATED);
 //	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{studentId}/parent/{parentId}")
 	public ResponseEntity<?> addParentToStudent(@PathVariable Integer studentId, @PathVariable Integer parentId, Principal p) {
 		String methodName = new Object() {
@@ -77,6 +80,7 @@ public class StudentController {
 //		return new ResponseEntity<>(studentService.updateStudent(id, updatedStudent), HttpStatus.OK);
 //	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}/subjects")
 	public ResponseEntity<?> addSubjectsToStudent(@PathVariable Integer id, @RequestBody SubjectsCollectionDTO subjects, Principal p) {
 		String methodName = new Object() {
@@ -86,6 +90,7 @@ public class StudentController {
 		return new ResponseEntity<>(studentService.addSubjectsToStudent(id, subjects), HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_STUDENT"})
 	@GetMapping(path = "/marks")
 	public ResponseEntity<?> getAllMarks(Principal p) {
 		String methodName = new Object() {
@@ -95,6 +100,7 @@ public class StudentController {
 		return new ResponseEntity<>(studentService.getStudentsMarks(p.getName()), HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_STUDENT"})
 	@GetMapping(path = "/marks/subject/{id}")
 	public ResponseEntity<?> getAllMarksBySubject(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {

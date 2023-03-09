@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,16 +39,18 @@ public class SemesterController {
 
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
-	@GetMapping
-	public ResponseEntity<?> getByMarkDate(@RequestParam String md, Principal p) {
-		String methodName = new Object() {
-		}.getClass().getEnclosingMethod().getName();
-		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+	
+//	@GetMapping
+//	public ResponseEntity<?> getByMarkDate(@RequestParam String md, Principal p) {
+//		String methodName = new Object() {
+//		}.getClass().getEnclosingMethod().getName();
+//		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+//
+//		LocalDate markDate = LocalDate.parse(md);
+//		return new ResponseEntity<>(semesterRepo.findByMarkDate(markDate), HttpStatus.OK);
+//	}
 
-		LocalDate markDate = LocalDate.parse(md);
-		return new ResponseEntity<>(semesterRepo.findByMarkDate(markDate), HttpStatus.OK);
-	}
-
+	@Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_STUDENT", "ROLE_PARENT"})
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getSemesterById(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
@@ -57,6 +60,7 @@ public class SemesterController {
 		return new ResponseEntity<>(semesterRepo.findById(id).orElseThrow(), HttpStatus.OK);
 	}
 
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping
 	public ResponseEntity<?> createSemester(@Valid @RequestBody SemesterDTO newSemester, Principal p) {
 		String methodName = new Object() {
@@ -74,6 +78,7 @@ public class SemesterController {
 		return new ResponseEntity<>(newSemester, HttpStatus.CREATED);
 	}
 
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> updateSemester(@PathVariable Integer id, @Valid @RequestBody SemesterDTO updatedSemester,
 			Principal p) {
@@ -104,6 +109,7 @@ public class SemesterController {
 		return new ResponseEntity<>(updatedSemester, HttpStatus.OK);
 	}
 
+	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<?> deleteSemester(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
