@@ -13,7 +13,7 @@ public interface MarkRepository extends CrudRepository<MarkEntity, Integer> {
 
 	public List<MarkEntity> findByStudent(StudentSubjectEntity student);
 	public Boolean existsByStudentIdAndSubjectId(Integer studentId, Integer subjectId);
-	public List<MarkEntity> findByStudentAndSubjectAndTeacherUsername(StudentSubjectEntity student,
-			TeacherSubjectEntity subject, String teacher);
+//	public List<MarkEntity> findByStudentAndSubjectAndTeacherTeacherUsername(StudentSubjectEntity student,
+//			TeacherSubjectEntity subject, String teacher);
 	
 }
