@@ -1,6 +1,13 @@
 package com.iktpreobuka.schoollogtwo.services;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
 import com.iktpreobuka.schoollogtwo.entities.AdminEntity;
@@ -11,11 +18,16 @@ import com.iktpreobuka.schoollogtwo.util.Encryption;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+	
+//	private static final String DOWNLOAD_FILE = "logs/spring-boot-logging.log";
 
 	@Autowired
 	AdminRepository adminRepository;
 	@Autowired
 	UserRoleRepository roleRepository;
+	
+	@Value("${logging.file.name}")
+	private String DOWNLOAD_FILE;
 	
 	@Override
 	public AdminEntity createAdmin(UserDTO user) {
@@ -58,6 +70,19 @@ public class AdminServiceImpl implements AdminService {
 	public AdminEntity deleteAdmin(AdminEntity admin) {
 		adminRepository.delete(admin);
 		return admin;
+	}
+
+	@Override
+	public InputStreamResource getLogs() throws IOException, SecurityException {
+		String logsFile = DOWNLOAD_FILE;
+		InputStream inStream = null;
+		try {
+			inStream = new FileInputStream(logsFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return new InputStreamResource(inStream);
 	}
 
 	
