@@ -35,7 +35,7 @@ public class MarkController {
 	
 	@Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
 	@PostMapping
-	public ResponseEntity<?> createMark(@RequestBody MarkDTO newMark,@RequestParam Boolean isFinal, Principal p) {
+	public ResponseEntity<?> createMark(@RequestBody MarkDTO newMark,@RequestParam Boolean isFinal, Principal p) throws IllegalArgumentException, Exception {
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
