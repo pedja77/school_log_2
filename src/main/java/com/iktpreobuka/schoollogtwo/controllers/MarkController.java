@@ -37,6 +37,7 @@ public class MarkController {
 	      .getEnclosingMethod()
 	      .getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(markService.createMark(newMark, p.getName())
 				.orElseThrow(IllegalArgumentException::new), 
 				HttpStatus.CREATED);
@@ -47,6 +48,7 @@ public class MarkController {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		MarksBySubjectResDTO subjectMarks = new MarksBySubjectResDTO();
 		StudentsMarksResDTO studentsMarks = new StudentsMarksResDTO();
 		MarkResDTO mark = new MarkResDTO();
