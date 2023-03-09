@@ -49,14 +49,16 @@ public class SubjectServiceImpl implements SubjectService {
 		return updatedSubject;
 	}
 
-	// Brisanje iz StudentSubject ostaje za kasnije kad se implementira ocena
+	// Brisanje iz TeacherSubject i StudentSubject ostaje za kasnije kad se implementira ocena
+	// Problem je sto bi ocene i dalje trebalo da postoje, a veza sa studentom i nastavnikom su navedene
+	// vezne tabele???????????
 	@Override
 	@Transactional
 	public SubjectEntity deleteSubject(Integer id) {
 		SubjectEntity subject = subjectRepository.findById(id).orElseThrow();
 		tsRepo.deleteAll(subject.getTeachers());
 		
-		// TODO: Placeholder for StudentSubject
+		// TODO: Placeholder for StudentSubject and TeacherSubject
 		
 		subjectRepository.delete(subject);
 		return null;

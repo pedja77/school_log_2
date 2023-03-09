@@ -12,22 +12,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SemesterDTO {
 
-	@JsonProperty(value = "Semester")
+	@JsonProperty(value = "semester")
 	@NotNull
 	@Range(min = 1, max = 2, message = "There are only two semesters in the year. Must be 1 or 2.")
 	private Integer semester;
 	
-	@JsonProperty(value = "Start")
+	@JsonProperty(value = "startDate")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
 	private String startDate;
 	
-	@JsonProperty(value = "End")
+	@JsonProperty(value = "endDate")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
 	private String endDate;
 	
-	@JsonProperty(value = "School year")
+	@JsonProperty(value = "schoolYearId")
 	@NotNull
 	private Integer schoolYearId;
 

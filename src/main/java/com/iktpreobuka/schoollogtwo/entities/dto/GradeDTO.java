@@ -10,7 +10,7 @@ public class GradeDTO {
 
 	@NotNull
 	@Range(min = 1, max = 8)
-	@JsonProperty(value = "Grade")
+	@JsonProperty(value = "grade")
 	private Integer value;
 
 	public GradeDTO() {

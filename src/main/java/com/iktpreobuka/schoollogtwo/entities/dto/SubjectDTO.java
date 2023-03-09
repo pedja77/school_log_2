@@ -9,13 +9,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SubjectDTO {
 
 	@NotNull
-	@JsonProperty(value = "Subject")
+	@JsonProperty(value = "subjectName")
 	private String subjectName;
 	@NotNull
-	@JsonProperty(value = "Weekly fund")
+	@JsonProperty(value = "weeklyFund")
 	private Integer weeklyFund;
 	@NotNull
-	@JsonProperty(value = "Grade")
+	@JsonProperty(value = "grade")
 	@Range(min = 1, max = 8)
 	private Integer grade; // ne sifra razreda, nego "vrednost razreda" ~ godina
 	

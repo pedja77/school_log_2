@@ -2,6 +2,8 @@ package com.iktpreobuka.schoollogtwo.controllers;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ public class GradeController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping
-	public ResponseEntity<?> createGrade(@RequestBody GradeDTO newGrade, Principal p){
+	public ResponseEntity<?> createGrade(@Valid @RequestBody GradeDTO newGrade, Principal p){
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
@@ -56,7 +58,7 @@ public class GradeController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateGrade(@PathVariable Integer id, @RequestBody GradeDTO updatedGrade, Principal p) {
+	public ResponseEntity<?> updateGrade(@PathVariable Integer id, @Valid @RequestBody GradeDTO updatedGrade, Principal p) {
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()

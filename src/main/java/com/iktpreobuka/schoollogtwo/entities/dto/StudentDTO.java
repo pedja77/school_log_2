@@ -13,7 +13,7 @@ public class StudentDTO extends UserDTO {
 
 	@NotNull
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
-	@Past
+	//@Past(message = "Must be a date in the past")
 	@JsonProperty(value = "dateOfBirth")
 	private String dateOfBirth;
 	

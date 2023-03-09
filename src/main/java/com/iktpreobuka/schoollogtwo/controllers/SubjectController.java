@@ -2,6 +2,8 @@ package com.iktpreobuka.schoollogtwo.controllers;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ public class SubjectController {
 
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping
-	public ResponseEntity<?> createSubject(@RequestBody SubjectDTO newSubject, Principal p) {
+	public ResponseEntity<?> createSubject(@Valid @RequestBody SubjectDTO newSubject, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
@@ -55,7 +57,7 @@ public class SubjectController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateSubject(@PathVariable Integer id, @RequestBody SubjectDTO updatedSubject, Principal p) {
+	public ResponseEntity<?> updateSubject(@PathVariable Integer id, @Valid @RequestBody SubjectDTO updatedSubject, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));

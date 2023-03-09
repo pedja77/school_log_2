@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class SchoolYearController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping
-	public ResponseEntity<?> createSchoolYear(@RequestBody SchoolYearDTO newSchoolYear, Principal p) {
+	public ResponseEntity<?> createSchoolYear( @Valid @RequestBody SchoolYearDTO newSchoolYear, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
@@ -55,6 +57,7 @@ public class SchoolYearController {
 		
 		schoolYear.setStartDate(LocalDate.parse(newSchoolYear.getStartDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		schoolYear.setEndDate(LocalDate.parse(newSchoolYear.getEndDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		schoolYear.setName(newSchoolYear.getName());
 		
 		syRepo.save(schoolYear);
 		
@@ -63,7 +66,7 @@ public class SchoolYearController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateSchoolYear(@PathVariable Integer id, @RequestBody SchoolYearDTO updatedSchoolYear, Principal p) {
+	public ResponseEntity<?> updateSchoolYear(@PathVariable Integer id, @Valid @RequestBody SchoolYearDTO updatedSchoolYear, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));

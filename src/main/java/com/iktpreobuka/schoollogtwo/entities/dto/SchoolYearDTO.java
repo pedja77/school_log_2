@@ -6,12 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SchoolYearDTO {
 
-	@JsonProperty(value = "Start")
+	@JsonProperty(value = "startDate")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private String startDate;
-	@JsonProperty(value = "End")
+	@JsonProperty(value = "endDate")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private String endDate;
+	@JsonProperty(value = "name")
+	private String name;
+	
 
 	public SchoolYearDTO() {
 		super();
@@ -37,6 +40,14 @@ public class SchoolYearDTO {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	
