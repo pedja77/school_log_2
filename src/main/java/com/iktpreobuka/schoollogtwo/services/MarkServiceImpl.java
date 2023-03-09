@@ -1,6 +1,8 @@
 package com.iktpreobuka.schoollogtwo.services;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.iktpreobuka.schoollogtwo.entities.TeacherStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.TeacherSubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.MarkDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarkResDTO;
+import com.iktpreobuka.schoollogtwo.model.EmailObject;
 import com.iktpreobuka.schoollogtwo.repositories.MarkRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SemesterRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentSubjectRepository;
@@ -38,6 +41,8 @@ public class MarkServiceImpl implements MarkService {
 	private MarkRepository markRepository;
 	@Autowired
 	private TeacherRepository teacherRepository;
+	@Autowired
+	private EmailService emailService;
 	
 	private boolean isTeachersStudent(TeacherEntity teacher, StudentEntity student) {
 		return teacher.getStudents().stream()
@@ -80,8 +85,36 @@ public class MarkServiceImpl implements MarkService {
 		return markRepository.existsByStudentIdAndSubjectId(mark.getStudentId(), mark.getSubjectId());
 	}
 	
+	private String createEmailText(MarkEntity mark) {
+		StringBuilder text = new StringBuilder();
+		text.append("<html><body><table style='border:2px solid black'>");
+		text.append("<th><td>Nastavnik</td><td>Predmet</td><td>Ocena</td><td>Datum</td></th>");
+		text.append("<tr>" 
+				+ "<td>" + mark.getTeacher().getTeacher().getFullName() + "</td>"
+				+ "<td>" + mark.getSubject().getSubject().getSubjectName() + "</td>"
+				+ "<td>" + mark.getValue() + "</td>"
+				+ "<td>" + mark.getMarkDate().toString() + "</td>"
+				+ "</tr>");
+		text.append("</table></body></html>");
+		return text.toString();
+	}
+	
+	private void sendEmails(MarkEntity mark) throws Exception {
+		List<String> emails = mark.getStudent().getStudent().getParents()
+				.stream()
+				.map(e -> e.getParent().getEmail())
+				.toList();
+		for (String e: emails) {
+			EmailObject email = new EmailObject();
+			email.setSubject("Nova ocena");
+			email.setText(createEmailText(mark));
+			email.setTo(e);
+			emailService.sendTemplateMessage(email);
+		}
+	}
+	
 	@Override
-	public Optional<MarkEntity> createMark(MarkDTO newMark, String username, Boolean isFinal) {
+	public Optional<MarkEntity> createMark(MarkDTO newMark, String username, Boolean isFinal) throws Exception {
 		MarkEntity mark;
 		// Da li je ocena poslata kao zakljucna i da li postoje prethodne ocene (bar jedna)
 		if (isFinal) {
@@ -115,6 +148,9 @@ public class MarkServiceImpl implements MarkService {
 			mark.setSemester(semesterRepository.findByMarkDate(markDate));
 			
 			markRepository.save(mark);
+			
+			sendEmails(mark);
+			
 			return Optional.of(mark);
 		}
 		

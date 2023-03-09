@@ -8,7 +8,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarkResDTO;
 
 public interface MarkService {
 
-	public Optional<MarkEntity> createMark(MarkDTO newMark, String teacher, Boolean isFinal);
+	public Optional<MarkEntity> createMark(MarkDTO newMark, String teacher, Boolean isFinal) throws Exception;
 	public Optional<MarkResDTO> updateMark(Integer id, MarkDTO updatedMark);
 	public MarkEntity deleteMark(Integer id);
 	public MarkResDTO getMark(Integer id);
