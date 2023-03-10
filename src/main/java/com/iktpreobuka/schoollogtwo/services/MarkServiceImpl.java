@@ -193,12 +193,12 @@ public class MarkServiceImpl implements MarkService {
 	}
 
 	@Override
-	public MarkEntity deleteMark(Integer id, Principal p) {
+	public MarkResDTO deleteMark(Integer id, Principal p) {
 		//uraditi proveru po nastavniku, predmetu i studentu
 		MarkEntity mark = markRepository.findById(id).orElseThrow();
 		if (isUserAdmin(p.getName()) || isTeachersMark(p.getName(), mark))
 			markRepository.delete(mark);
-		return mark;
+		return markToDto(mark);
 	}
 
 	@Override

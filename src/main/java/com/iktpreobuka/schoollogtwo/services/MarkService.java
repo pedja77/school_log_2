@@ -11,6 +11,6 @@ public interface MarkService {
 
 	public Optional<MarkEntity> createMark(MarkDTO newMark, String teacher, Boolean isFinal) throws Exception;
 	public Optional<MarkResDTO> updateMark(Integer id, MarkDTO updatedMark, Principal p);
-	public MarkEntity deleteMark(Integer id, Principal p);
+	public MarkResDTO deleteMark(Integer id, Principal p);
 	public MarkResDTO getMark(Integer id);
 }

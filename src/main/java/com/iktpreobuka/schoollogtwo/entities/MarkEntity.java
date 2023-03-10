@@ -30,6 +30,7 @@ import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -39,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @DiscriminatorValue(value = "mark")
 @SQLDelete(sql = "UPDATE mark SET deleted = true WHERE id=? AND version=?")
 @Where(clause = "deleted = false")
+@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class MarkEntity {
 
 	@Id

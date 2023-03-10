@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class MarkController {
 	
 	@Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
 	@PostMapping
-	public ResponseEntity<?> createMark(@RequestBody MarkDTO newMark,@RequestParam Boolean isFinal, Principal p) throws IllegalArgumentException, Exception {
+	public ResponseEntity<?> createMark(@Valid @RequestBody MarkDTO newMark,@RequestParam Boolean isFinal, Principal p) throws IllegalArgumentException, Exception {
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
@@ -62,11 +64,11 @@ public class MarkController {
 	
 	@Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateMark(@PathVariable Integer id, MarkDTO mark, Principal p) {
+	public ResponseEntity<?> updateMark(@PathVariable Integer id, @Valid @RequestBody MarkDTO mark, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		return new ResponseEntity<>(markService.updateMark(id, mark, p), HttpStatus.OK);
+		return new ResponseEntity<>(markService.updateMark(id, mark, p).orElseThrow(), HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
