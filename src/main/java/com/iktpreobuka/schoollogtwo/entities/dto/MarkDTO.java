@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 public class MarkDTO {
 
-//	@NotNull
-//	@JsonProperty(value = "Teacher")
-//	private Integer teacherId;
+	@NotNull
+	@JsonProperty(value = "Teacher")
+	private Integer teacherId;
 	
 	@NotNull
 	@JsonProperty(value = "Student")
@@ -24,12 +24,12 @@ public class MarkDTO {
 	@JsonProperty(value = "Subject")
 	private Integer subjectId;
 	
-//	@NotNull
-//	@JsonProperty(value = "Semester")
-//	private Integer semesterId;
+	@NotNull
+	@JsonProperty(value = "Semester")
+	private Integer semesterId;
 	
-//	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
-//	protected LocalDate markDate;
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+	protected LocalDate markDate;
 	
 	@NotNull
 	@JsonProperty(value = "Mark")
@@ -45,20 +45,20 @@ public class MarkDTO {
 
 	public MarkDTO(Integer teacherId, Integer studentId, Integer subjectId, Integer value, String comment) {
 		super();
-//		this.teacherId = teacherId;
+		this.teacherId = teacherId;
 		this.studentId = studentId;
 		this.subjectId = subjectId;
 		this.value = value;
 		this.comment = comment;
 	}
 
-//	public Integer getTeacherId() {
-//		return teacherId;
-//	}
-//
-//	public void setTeacherId(Integer teacherId) {
-//		this.teacherId = teacherId;
-//	}
+	public Integer getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
+	}
 
 	public Integer getStudentId() {
 		return studentId;
@@ -92,21 +92,21 @@ public class MarkDTO {
 		this.comment = comment;
 	}
 
-//	public Integer getSemesterId() {
-//		return semesterId;
-//	}
-//
-//	public void setSemesterId(Integer semesterId) {
-//		this.semesterId = semesterId;
-//	}
+	public Integer getSemesterId() {
+		return semesterId;
+	}
 
-//	public LocalDate getMarkDate() {
-//		return markDate;
-//	}
-//
-//	public void setMarkDate(LocalDate markDate) {
-//		this.markDate = markDate;
-//	}
+	public void setSemesterId(Integer semesterId) {
+		this.semesterId = semesterId;
+	}
+
+	public LocalDate getMarkDate() {
+		return markDate;
+	}
+
+	public void setMarkDate(LocalDate markDate) {
+		this.markDate = markDate;
+	}
 	
 	
 }

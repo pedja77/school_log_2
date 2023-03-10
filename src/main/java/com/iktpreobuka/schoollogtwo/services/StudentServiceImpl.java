@@ -57,9 +57,11 @@ public class StudentServiceImpl implements StudentService {
 		markDto.setComment(mark.getComment());
 		markDto.setChangedOn(mark.getUpdatedOn().toLocalDate());
 		markDto.setGivenOn(mark.getMarkDate());
-//		markDto.setSemester(mark.getSemester().getSemester());
-//		markDto.setSchoolYear(mark.getSemester().getSchoolYear().getName());
+		markDto.setSemester(mark.getSemester().getSemester());
+		markDto.setSchoolYear(mark.getSemester().getSchoolYear().getName());
 		markDto.setIsFinal(mark instanceof FinalMarkEntity);
+		markDto.setStudent(mark.getStudent().getStudent().getFullName());
+		markDto.setId(mark.getId());
 		return markDto;
 	}
 

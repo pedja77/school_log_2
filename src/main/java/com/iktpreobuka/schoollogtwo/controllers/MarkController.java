@@ -33,7 +33,7 @@ public class MarkController {
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
-	@Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+	@Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
 	@PostMapping
 	public ResponseEntity<?> createMark(@RequestBody MarkDTO newMark,@RequestParam Boolean isFinal, Principal p) throws IllegalArgumentException, Exception {
 		String methodName = new Object() {}

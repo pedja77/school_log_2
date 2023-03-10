@@ -1,5 +1,6 @@
 package com.iktpreobuka.schoollogtwo.exceptions;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,12 @@ public class GlobalExceptionHandler {
 
 		logger.error(e.getMessage());
 		return "Something went wrong!!!";
+	}
+	
+	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	public ResponseEntity<?> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e) {
+		logger.error(e.getMessage());
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
 	}
 	 
 	@ExceptionHandler(IllegalArgumentException.class)

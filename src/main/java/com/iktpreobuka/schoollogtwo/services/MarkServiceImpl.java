@@ -82,7 +82,7 @@ public class MarkServiceImpl implements MarkService {
 	}
 	
 	private Boolean canBeFinal(MarkDTO mark) {
-		return markRepository.existsByStudentIdAndSubjectId(mark.getStudentId(), mark.getSubjectId());
+		return markRepository.existsByStudentStudentIdAndSubjectSubjectId(mark.getStudentId(), mark.getSubjectId());
 	}
 	
 	private String createEmailText(MarkEntity mark) {
