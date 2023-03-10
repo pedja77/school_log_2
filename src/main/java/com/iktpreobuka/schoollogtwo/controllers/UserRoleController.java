@@ -69,7 +69,7 @@ public class UserRoleController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> createUserRole(@PathVariable Integer id, @RequestParam(name = "role") String role, Principal p) {
+	public ResponseEntity<?> updateUserRole(@PathVariable Integer id, @RequestParam(name = "role") String role, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
@@ -82,4 +82,5 @@ public class UserRoleController {
 		
 		return new ResponseEntity<>(userRole, HttpStatus.OK);
 	}
+	
 }

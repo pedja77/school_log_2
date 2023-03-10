@@ -24,7 +24,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.UserDTO;
 import com.iktpreobuka.schoollogtwo.services.AdminService;
 
 @RestController
-@RequestMapping(path = "/api/v1/admins")
+@RequestMapping(path = "/api/v1/admin")
 public class AdminController {
 	
 	@Autowired

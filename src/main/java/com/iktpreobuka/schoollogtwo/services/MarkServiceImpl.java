@@ -1,5 +1,6 @@
 package com.iktpreobuka.schoollogtwo.services;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.iktpreobuka.schoollogtwo.entities.TeacherSubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.MarkDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarkResDTO;
 import com.iktpreobuka.schoollogtwo.model.EmailObject;
+import com.iktpreobuka.schoollogtwo.repositories.AdminRepository;
 import com.iktpreobuka.schoollogtwo.repositories.MarkRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SemesterRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentSubjectRepository;
@@ -43,6 +45,8 @@ public class MarkServiceImpl implements MarkService {
 	private TeacherRepository teacherRepository;
 	@Autowired
 	private EmailService emailService;
+	@Autowired
+	private AdminRepository adminRepository;
 	
 	private boolean isTeachersStudent(TeacherEntity teacher, StudentEntity student) {
 		return teacher.getStudents().stream()
@@ -87,8 +91,8 @@ public class MarkServiceImpl implements MarkService {
 	
 	private String createEmailText(MarkEntity mark) {
 		StringBuilder text = new StringBuilder();
-		text.append("<html><body><table style='border:2px solid black'>");
-		text.append("<th><td>Nastavnik</td><td>Predmet</td><td>Ocena</td><td>Datum</td></th>");
+		text.append("<html><body><table>");
+		text.append("<tr><th>Nastavnik</th><th>Predmet</th><th>Ocena</th><th>Datum</th></tr>");
 		text.append("<tr>" 
 				+ "<td>" + mark.getTeacher().getTeacher().getFullName() + "</td>"
 				+ "<td>" + mark.getSubject().getSubject().getSubjectName() + "</td>"
@@ -106,11 +110,19 @@ public class MarkServiceImpl implements MarkService {
 				.toList();
 		for (String e: emails) {
 			EmailObject email = new EmailObject();
-			email.setSubject("Nova ocena");
+			email.setSubject("Nova ocena iz predmeta " + mark.getSubject().getSubject().getSubjectName());
 			email.setText(createEmailText(mark));
 			email.setTo(e);
 			emailService.sendTemplateMessage(email);
 		}
+	}
+	
+	private Boolean isUserAdmin(String username) {
+		return adminRepository.existsByUsername(username);
+	}
+	
+	private Boolean isTeachersMark(String username, MarkEntity mark) {
+		return username.equals(mark.getTeacher().getTeacher().getUsername());
 	}
 	
 	@Override
@@ -159,26 +171,33 @@ public class MarkServiceImpl implements MarkService {
 
 
 	@Override
-	public Optional<MarkResDTO> updateMark(Integer id, MarkDTO updatedMark) {
+	public Optional<MarkResDTO> updateMark(Integer id, MarkDTO updatedMark, Principal p) {
+		//uraditi proveru po nastavniku, predmetu i studentu
+		// iz admin repoa dobaviti da li je korisnik admin, za dozvolu adminu da menja ocenu
 		MarkEntity mark = markRepository.findById(id).orElseThrow();
-		if (mark.getStudent().getStudent().getId() == updatedMark.getStudentId() &&
-				mark.getSubject().getSubject().getId() == updatedMark.getSubjectId()) {
-			if (updatedMark.getValue() != null && !mark.getValue().equals(updatedMark.getValue())) {
-				mark.setValue(updatedMark.getValue());
-			}
-			if (updatedMark.getComment() != null && !mark.getComment().equals(updatedMark.getComment())) {
-				mark.setComment(updatedMark.getComment());
-			}
-			
-			return Optional.of(markToDto(markRepository.save(mark)));
+		
+		if (isUserAdmin(p.getName()) || isTeachersMark(p.getName(), mark)) {
+			if (mark.getStudent().getStudent().getId() == updatedMark.getStudentId()
+					&& mark.getSubject().getSubject().getId() == updatedMark.getSubjectId()) {
+				if (updatedMark.getValue() != null && !mark.getValue().equals(updatedMark.getValue())) {
+					mark.setValue(updatedMark.getValue());
+				}
+				if (updatedMark.getComment() != null && !mark.getComment().equals(updatedMark.getComment())) {
+					mark.setComment(updatedMark.getComment());
+				}
+
+				return Optional.of(markToDto(markRepository.save(mark)));
+			} 
 		}
 		return Optional.ofNullable(null);
 	}
 
 	@Override
-	public MarkEntity deleteMark(Integer id) {
+	public MarkEntity deleteMark(Integer id, Principal p) {
+		//uraditi proveru po nastavniku, predmetu i studentu
 		MarkEntity mark = markRepository.findById(id).orElseThrow();
-		markRepository.delete(mark);
+		if (isUserAdmin(p.getName()) || isTeachersMark(p.getName(), mark))
+			markRepository.delete(mark);
 		return mark;
 	}
 

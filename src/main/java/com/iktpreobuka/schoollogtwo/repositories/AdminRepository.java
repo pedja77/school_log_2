@@ -6,4 +6,5 @@ import com.iktpreobuka.schoollogtwo.entities.AdminEntity;
 
 public interface AdminRepository extends CrudRepository<AdminEntity, Integer> {
 
+	Boolean existsByUsername(String username);
 }
