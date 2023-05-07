@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -29,6 +30,7 @@ import com.iktpreobuka.schoollogtwo.util.UserMapper;
 
 @RestController
 @RequestMapping(path = "/api/v1/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 	@Autowired

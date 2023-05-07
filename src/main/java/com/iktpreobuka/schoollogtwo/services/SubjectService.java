@@ -8,5 +8,6 @@ public interface SubjectService {
 	public SubjectDTO createSubject(SubjectDTO newSubject);
 	public SubjectDTO updateSubject(Integer id,SubjectDTO updatedSubject);
 	public SubjectEntity deleteSubject(Integer id);
+	public SubjectDTO getSubject(Integer id);
 	
 }

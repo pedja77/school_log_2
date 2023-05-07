@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,7 @@ import io.jsonwebtoken.Jwts;
 
 @RestController
 @RequestMapping(path = "/api/v1/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
 
 	@Autowired
@@ -55,6 +57,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 		UserEntity userEntity = userRepository.findByUsername(username);
 		if (userEntity != null && Encryption.validatePassword(pwd, userEntity.getPassword())) {

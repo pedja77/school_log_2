@@ -58,7 +58,7 @@ public class SubjectEntity {
 	private List<TeacherSubjectEntity> teachers;
 	
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-	private List<TeacherSubjectEntity> students;
+	private List<StudentSubjectEntity> students;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "grade")
@@ -133,11 +133,11 @@ public class SubjectEntity {
 		this.teachers = teachers;
 	}
 
-	public List<TeacherSubjectEntity> getStudents() {
+	public List<StudentSubjectEntity> getStudents() {
 		return students;
 	}
 
-	public void setStudents(List<TeacherSubjectEntity> students) {
+	public void setStudents(List<StudentSubjectEntity> students) {
 		this.students = students;
 	}
 

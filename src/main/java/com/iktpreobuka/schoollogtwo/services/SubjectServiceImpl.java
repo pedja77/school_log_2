@@ -64,4 +64,10 @@ public class SubjectServiceImpl implements SubjectService {
 		return null;
 	}
 
+	@Override
+	public SubjectDTO getSubject(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
