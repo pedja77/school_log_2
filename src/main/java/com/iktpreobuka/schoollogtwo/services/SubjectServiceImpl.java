@@ -1,5 +1,7 @@
 package com.iktpreobuka.schoollogtwo.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.SubjectDTO;
 import com.iktpreobuka.schoollogtwo.repositories.GradeRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherSubjectRepository;
+import com.iktpreobuka.schoollogtwo.util.UserMapper;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -20,6 +23,8 @@ public class SubjectServiceImpl implements SubjectService {
 	private SubjectRepository subjectRepository;
 	@Autowired
 	private TeacherSubjectRepository tsRepo;
+	@Autowired
+	private UserMapper mapper;
 	
 	@Override
 	public SubjectDTO createSubject(SubjectDTO newSubject) {
@@ -65,9 +70,29 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public SubjectDTO getSubject(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public SubjectDTO getSubjectDTO(Integer id) {
+		SubjectEntity s = subjectRepository.findById(id).orElseThrow();
+		return subjectToDto(s);
+	}
+	
+	private SubjectDTO subjectToDto(SubjectEntity s) {
+		SubjectDTO subject = new SubjectDTO();
+		subject.setSubjectName(s.getSubjectName());
+		subject.setGrade(s.getGrade().getValue());
+		subject.setWeeklyFund(s.getWeeklyFund());
+		subject.setTeachers(s.getTeachers().stream()
+				.map(teacher -> mapper.mapToUserDTO(teacher.getTeacher())).toList());
+		subject.setStudents(s.getStudents().stream()
+				.map(student -> mapper.mapToUserDTO(student.getStudent())).toList());
+		
+		return subject;
+	}
+
+	@Override
+	public List<SubjectDTO> getAllSubjectDTOs() {
+		List<SubjectEntity> subjects = (List<SubjectEntity>) subjectRepository.findAll();
+		return subjects.stream()
+				.map(s -> subjectToDto(s)).toList();
 	}
 
 }

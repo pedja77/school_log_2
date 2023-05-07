@@ -1,10 +1,14 @@
 package com.iktpreobuka.schoollogtwo.entities.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.iktpreobuka.schoollogtwo.entities.SubjectEntity;
 
 public class SubjectDTO {
 
@@ -18,6 +22,10 @@ public class SubjectDTO {
 	@JsonProperty(value = "grade")
 	@Range(min = 1, max = 8)
 	private Integer grade; // ne sifra razreda, nego "vrednost razreda" ~ godina
+	@JsonProperty
+	private List<UserDTO> teachers;
+	@JsonProperty
+	private List<UserDTO> students;
 	
 	public SubjectDTO() {
 		super();
@@ -29,7 +37,10 @@ public class SubjectDTO {
 		this.subjectName = subjectName;
 		this.weeklyFund = weeklyFund;
 		this.grade = grade;
+		this.teachers = null;
+		this.students = null;
 	}
+	
 
 	public String getSubjectName() {
 		return subjectName;
@@ -53,6 +64,22 @@ public class SubjectDTO {
 
 	public void setGrade(Integer grade) {
 		this.grade = grade;
+	}
+
+	public List<UserDTO> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(List<UserDTO> teachers) {
+		this.teachers = teachers;
+	}
+
+	public List<UserDTO> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<UserDTO> students) {
+		this.students = students;
 	}
 	
 	

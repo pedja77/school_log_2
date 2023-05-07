@@ -33,6 +33,7 @@ public class UserDTO {
 	@JsonProperty(value = "lastName")
 	private String lastName;
 	
+	@JsonIgnore
 	@NotNull(message = "Username must be provided.")
 	@Size(min = 4, max = 12, message = "Username must be between {min} and {max} characters long.")
 	@JsonProperty(value = "username")
@@ -74,6 +75,7 @@ public class UserDTO {
 		this.lastName = lastName;
 	}
 
+	@JsonIgnore  // Mozda problematicno kod dodavanja korisnika?????
 	public String getUsername() {
 		return username;
 	}
@@ -82,6 +84,7 @@ public class UserDTO {
 		this.username = username;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -90,6 +93,7 @@ public class UserDTO {
 		this.password = password;
 	}
 
+	@JsonIgnore
 	public String getConfirmedPassword() {
 		return confirmedPassword;
 	}

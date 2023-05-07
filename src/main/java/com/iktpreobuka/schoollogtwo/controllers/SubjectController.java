@@ -39,7 +39,7 @@ public class SubjectController {
 	@GetMapping
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> getAllSubjects() {
-		return new ResponseEntity<>(subjectRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(subjectService.getAllSubjectDTOs(), HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -49,7 +49,7 @@ public class SubjectController {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		
-		return new ResponseEntity<>(subjectRepository.findById(id).orElseThrow(), HttpStatus.OK);
+		return new ResponseEntity<>(subjectService.getSubjectDTO(id), HttpStatus.OK);
 	}
 	
 
