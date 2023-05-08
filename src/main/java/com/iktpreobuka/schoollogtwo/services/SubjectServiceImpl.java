@@ -95,4 +95,12 @@ public class SubjectServiceImpl implements SubjectService {
 				.map(s -> subjectToDto(s)).toList();
 	}
 
+	@Override
+	public List<SubjectDTO> getAllSubjectDTOsFiltered(String query) {
+		List<SubjectEntity> subjects = (List<SubjectEntity>) subjectRepository.findAll();
+		return subjects.stream()
+				.filter(s -> s.getSubjectName().toLowerCase().contains(query.toLowerCase()))
+				.map(s -> subjectToDto(s)).toList();
+	}
+
 }

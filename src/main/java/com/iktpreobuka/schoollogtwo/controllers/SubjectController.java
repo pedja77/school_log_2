@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectDTO;
@@ -38,8 +39,23 @@ public class SubjectController {
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<?> getAllSubjects() {
+	public ResponseEntity<?> getAllSubjects(Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
 		return new ResponseEntity<>(subjectService.getAllSubjectDTOs(), HttpStatus.OK);
+	}
+	
+	@Secured({"ROLE_ADMIN"})
+	@GetMapping(path = "/search")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<?> getAllSubjectsFiltered(@RequestParam String query, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(subjectService.getAllSubjectDTOsFiltered(query), HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN"})

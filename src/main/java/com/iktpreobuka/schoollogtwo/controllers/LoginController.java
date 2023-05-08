@@ -65,6 +65,9 @@ public class LoginController {
 			LoginDTO user = new LoginDTO();
 			user.setUser(username);
 			user.setToken(token);
+			
+			logger.info(String.format("[%s] login",user.getUser()));
+			
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 		return new ResponseEntity<>("Wrong credentials", HttpStatus.UNAUTHORIZED);
