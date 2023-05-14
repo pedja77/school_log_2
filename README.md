@@ -20,6 +20,8 @@ enkriptovanjem passworda, reseno je ali je hacky i stvorilo je problem sa prezen
  
  ## Pokretanje aplikacije
  
- Ukoliko se prilikom pokretanja servera dobije greška da nije moguće pronaći UserMapper, potrebno je uraditi maven clean i maven install da se 
- generiše fajl UserMapperImpl.java u target/generated-sources/annotations/com/iktpreobuka/schoollogtwo/util.
+ Ukoliko se prilikom pokretanja servera dobije greška (da nije moguće pronaći UserMapper...), potrebno je uraditi maven clean i maven install nad   pom.xml da se generiše fajl UserMapperImpl.java u target/generated-sources/annotations/com/iktpreobuka/schoollogtwo/util.
+ 
+ U src/main/resources se nalazi skripta import.sql za popunjavanje baze ako je spring.jpa.hibernate.ddl-auto=create u application.properties fajlu.
+ Baza se zove db_school_2, sa keredencijalima: korisnik = springuser i password = ThePassword 
 

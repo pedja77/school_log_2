@@ -77,6 +77,7 @@ public class SubjectServiceImpl implements SubjectService {
 	
 	private SubjectDTO subjectToDto(SubjectEntity s) {
 		SubjectDTO subject = new SubjectDTO();
+		subject.setId(s.getId());
 		subject.setSubjectName(s.getSubjectName());
 		subject.setGrade(s.getGrade().getValue());
 		subject.setWeeklyFund(s.getWeeklyFund());

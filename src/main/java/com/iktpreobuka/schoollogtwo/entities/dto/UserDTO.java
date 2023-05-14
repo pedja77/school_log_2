@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = AdminDTO.class, name = "ROLE_ADMIN")
 })
 public class UserDTO {
+	
+	@JsonProperty
+	private Integer id;
 
 	@NotNull(message = "First name must be provided.")
 	@Size(min = 2, max = 30, message ="First name must be between {min} and {max} characters long.")
@@ -108,6 +111,14 @@ public class UserDTO {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	

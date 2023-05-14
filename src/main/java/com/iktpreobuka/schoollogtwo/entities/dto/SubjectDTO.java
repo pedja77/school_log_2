@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iktpreobuka.schoollogtwo.entities.SubjectEntity;
 
 public class SubjectDTO {
+	
+	@JsonProperty
+	private Integer id;
 
 	@NotNull
 	@JsonProperty(value = "subjectName")
@@ -80,6 +83,14 @@ public class SubjectDTO {
 
 	public void setStudents(List<UserDTO> students) {
 		this.students = students;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
