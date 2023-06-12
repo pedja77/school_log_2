@@ -9,6 +9,12 @@ public class TeacherDTO extends UserDTO {
 	@JsonProperty(value = "weeklyClasses")
 	private Integer weeklyClasses;
 	
+//	@JsonProperty
+//	private List<UserDTO> students;
+	
+	@JsonProperty 
+	List<SubjectDTO> subjects;
+	
 	
 
 	public TeacherDTO() {
@@ -21,6 +27,22 @@ public class TeacherDTO extends UserDTO {
 
 	public void setWeeklyClasses(Integer weeklyClasses) {
 		this.weeklyClasses = weeklyClasses;
+	}
+
+//	public List<UserDTO> getStudents() {
+//		return students;
+//	}
+//
+//	public void setStudents(List<UserDTO> students) {
+//		this.students = students;
+//	}
+
+	public List<SubjectDTO> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<SubjectDTO> subjects) {
+		this.subjects = subjects;
 	}
 	
 	

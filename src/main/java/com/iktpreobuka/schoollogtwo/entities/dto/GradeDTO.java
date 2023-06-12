@@ -12,6 +12,9 @@ public class GradeDTO {
 	@Range(min = 1, max = 8)
 	@JsonProperty(value = "grade")
 	private Integer value;
+	
+	@JsonProperty
+	private Integer id;
 
 	public GradeDTO() {
 		super();
@@ -28,6 +31,14 @@ public class GradeDTO {
 
 	public void setValue(Integer value) {
 		this.value = value;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	

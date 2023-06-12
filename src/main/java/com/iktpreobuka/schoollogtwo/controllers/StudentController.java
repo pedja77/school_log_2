@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
@@ -32,6 +34,40 @@ public class StudentController {
 	StudentRepository studentRepository;
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+	@GetMapping(path = "/grade/{grade}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<?> getStudentsByGrade(@PathVariable Integer grade, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(studentService.getStudentsByGrade(grade), HttpStatus.OK);
+	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+	@GetMapping
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<?> getAllStudents(Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+	}
+	
+	
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+	@GetMapping(path = "/teacher/{teacherId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<?> getStudentsByTeacher(@PathVariable Integer teacherId, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(studentService.getStudentsByTeacher(teacherId), HttpStatus.OK);
+	}
 	
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping(path = "/{id}")

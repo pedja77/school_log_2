@@ -14,4 +14,5 @@ public interface StudentRepository extends CrudRepository<StudentEntity, Integer
 
 	public StudentEntity findByUsername(String username);
 	public StudentSubjectEntity findByUsernameAndSubjectsId(String username, Integer subjectId);
+	public List<StudentEntity> findByGradeValue(Integer grade);
 }

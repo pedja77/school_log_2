@@ -12,6 +12,7 @@ public interface SubjectService {
 	public SubjectEntity deleteSubject(Integer id);
 	public SubjectDTO getSubjectDTO(Integer id);
 	public List<SubjectDTO> getAllSubjectDTOs();
-	public List<SubjectDTO> getAllSubjectDTOsFiltered(String query);
+	public List<SubjectDTO> getAllSubjectDTOsFiltered(String query, Integer grade);
+	public List<SubjectDTO> getSubjectsByTeacher(Integer id);
 	
 }

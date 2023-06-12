@@ -94,3 +94,4 @@ INSERT into db_school_2.student_subject VALUES ('83', b'0', '67', '20');
 INSERT into db_school_2.student_subject VALUES ('84', b'0', '68', '21');
 INSERT into db_school_2.student_subject VALUES ('85', b'0', '69', '21');
 
+update hibernate_sequence set next_val = 90;

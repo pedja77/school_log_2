@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.schoollogtwo.entities.UserEntity;
@@ -56,7 +58,8 @@ public class LoginController {
 		return "Bearer " + token;
 	}
 
-	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	@RequestMapping(path = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 		UserEntity userEntity = userRepository.findByUsername(username);
@@ -70,7 +73,7 @@ public class LoginController {
 			
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
-		return new ResponseEntity<>("Wrong credentials", HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>("\"Wrong credentials\"", HttpStatus.UNAUTHORIZED);
 	}
 	
 }

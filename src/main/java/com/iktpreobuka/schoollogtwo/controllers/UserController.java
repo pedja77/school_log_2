@@ -73,7 +73,7 @@ public class UserController {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
-		
+		System.out.println("deleteUser controller " + id);
 		return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
 	}
 	

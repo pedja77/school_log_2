@@ -93,5 +93,9 @@ public class SubjectDTO {
 		this.id = id;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return String.format("%s, fund: %s, teachers: %d, students: %d", 
+				getSubjectName(), getWeeklyFund(), getTeachers().size(), getStudents().size());
+	}
 }

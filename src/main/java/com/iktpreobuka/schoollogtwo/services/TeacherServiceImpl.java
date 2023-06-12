@@ -8,7 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
+import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.SubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.TeacherEntity;
 import com.iktpreobuka.schoollogtwo.entities.TeacherStudentEntity;
@@ -17,6 +19,7 @@ import com.iktpreobuka.schoollogtwo.entities.dto.StudentsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeachersCollectionDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.UserDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.StudentsMarksResDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.TeacherResDTO;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
@@ -26,6 +29,7 @@ import com.iktpreobuka.schoollogtwo.repositories.TeacherStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.TeacherSubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
 import com.iktpreobuka.schoollogtwo.util.Encryption;
+import com.iktpreobuka.schoollogtwo.util.UserMapper;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -44,6 +48,8 @@ public class TeacherServiceImpl implements TeacherService {
 	private StudentRepository studentRepository;
 	@Autowired
 	private StudentService studentService;
+	@Autowired
+	private UserMapper mapper;
 	
 	private boolean isStudentsSubject(StudentEntity student, SubjectEntity subject) {
 		return student.getSubjects().stream()
@@ -72,23 +78,64 @@ public class TeacherServiceImpl implements TeacherService {
 		return teacherRepository.save(teacher);
 	}
 
+	@Transactional
+	private void bulkDeleteTeacherSubject(List<TeacherSubjectEntity> tss) {
+		for (TeacherSubjectEntity s : tss) {
+			teacherSubjectRepository.delete(s);
+		}
+	}
+
+	@Transactional
+	private void bulkSaveTeacherSubject(List<TeacherSubjectEntity> subjects) {
+		teacherSubjectRepository.saveAll(subjects);
+	}
+	
 	@Override
-	public TeacherEntity updateTeacher(Integer id, TeacherDTO updatedTeacher) {
+	@Transactional
+	public TeacherDTO updateTeacher(Integer id, TeacherDTO updatedTeacher) {
 		TeacherEntity teacher = teacherRepository.findById(id).orElseThrow();
+		
 		if (updatedTeacher.getFirstName() != null && !teacher.getFirstName().equals(updatedTeacher.getFirstName()))
 			teacher.setFirstName(updatedTeacher.getFirstName());
 		if (updatedTeacher.getLastName() != null && !teacher.getLastName().equals(updatedTeacher.getLastName()))
 			teacher.setLastName(updatedTeacher.getLastName());
 		if (updatedTeacher.getUsername() != null && !teacher.getUsername().equals(updatedTeacher.getUsername()))
 			teacher.setUsername(updatedTeacher.getUsername());
-		if (updatedTeacher.getPassword() != null && !teacher.getPassword().equals(updatedTeacher.getPassword()))
-			teacher.setPassword(Encryption.getPassEncoded(updatedTeacher.getPassword()));
+//		if (updatedTeacher.getPassword() != null && !teacher.getPassword().equals(updatedTeacher.getPassword()))
+//			teacher.setPassword(Encryption.getPassEncoded(updatedTeacher.getPassword()));
 		if (updatedTeacher.getWeeklyClasses() != null && !teacher.getWeeklyClasses().equals(updatedTeacher.getWeeklyClasses()))
 			teacher.setWeeklyClasses(updatedTeacher.getWeeklyClasses());
 //		if (updatedTeacher.getRole() != null && !teacher.getRole().equals(roleRepository.findByRoleName(updatedTeacher.getRole())))
 //			teacher.setRole(roleRepository.findByRoleName(updatedTeacher.getRole()));
 		
-		return teacherRepository.save(teacher);
+//		if (updatedTeacher.getStudents() != null && updatedTeacher.getStudents().size() > 0) {
+//			List<TeacherStudentEntity> students = updatedTeacher.getStudents().stream()
+//					.map(s -> {
+//						TeacherStudentEntity student = new TeacherStudentEntity();
+//						student.setTeacher(teacher);
+//						student.setStudent(studentRepository.findById(s.getId()).orElseThrow());
+//						return student;
+//					}).toList();
+//			teacher.setStudents(students);
+//		}
+		
+		if (updatedTeacher.getSubjects() != null && updatedTeacher.getSubjects().size() > 0) {
+			List<TeacherSubjectEntity> subjects = updatedTeacher.getSubjects().stream()
+					.map(s -> {
+						TeacherSubjectEntity subject = new TeacherSubjectEntity();
+						subject.setTeacher(teacher);
+						subject.setSubject(subjectRepository.findById(s.getId()).orElseThrow());
+						return subject;
+					}).toList();
+			List<TeacherSubjectEntity> existingSubjects = teacherSubjectRepository.findByTeacherId(updatedTeacher.getId());
+			bulkDeleteTeacherSubject(existingSubjects);
+			bulkSaveTeacherSubject(subjects);
+//			teacher.setSubjects(subjects);
+		}
+		
+		teacherRepository.save(teacher);
+		
+		return updatedTeacher;
 	}
 
 	@Override
@@ -100,6 +147,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 	
 	@Override
+	@Transactional
 	public TeacherEntity deleteTeacher(TeacherEntity teacher) {
 		teacherStudentRepository.deleteAll(teacher.getStudents());
 		teacherSubjectRepository.deleteAll(teacher.getSubjects());
@@ -169,6 +217,29 @@ public class TeacherServiceImpl implements TeacherService {
 				.getStudentsMarksBySubject(student.getUsername(), subjectId).orElseThrow();
 		response.setStudentsMarks(studentsMarks);
 		return response;
+	}
+
+	@Override
+	public List<UserDTO> getAllTeachers() {
+		List<TeacherEntity> teachers = (List<TeacherEntity>) teacherRepository.findAll();
+		List<UserDTO> teacherDTOs = (List<UserDTO>) teachers.stream().map(mapper::mapToUserDTO).toList();
+		return teacherDTOs;
+	}
+
+	@Override
+	public List<UserDTO> getAllTeachersFiltered(String q) {
+		List<TeacherEntity> teachers = (List<TeacherEntity>) teacherRepository.findAll();
+		List<UserDTO> teacherDTOs = (List<UserDTO>) teachers.stream()
+				.map(mapper::mapToUserDTO)
+				.filter(t -> (t.getFirstName().toLowerCase() + " " + t.getLastName().toLowerCase()).contains(q.toLowerCase())).toList();
+		return teacherDTOs;
+	}
+
+	@Override
+	public UserDTO getTeacherById(Integer id) {
+		TeacherEntity t = teacherRepository.findById(id).orElseThrow();
+		
+		return mapper.teacherToDto(t);
 	}
 
 	

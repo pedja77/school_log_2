@@ -2,6 +2,7 @@ package com.iktpreobuka.schoollogtwo.services;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +16,10 @@ import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentSubjectEntity;
+import com.iktpreobuka.schoollogtwo.entities.TeacherStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.StudentDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.SubjectsCollectionDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.UserDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarkResDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.MarksBySubjectResDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.responses.StudentsMarksResDTO;
@@ -27,14 +30,18 @@ import com.iktpreobuka.schoollogtwo.repositories.ParentStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.StudentSubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.SubjectRepository;
+import com.iktpreobuka.schoollogtwo.repositories.TeacherStudentRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRoleRepository;
 import com.iktpreobuka.schoollogtwo.util.Encryption;
+import com.iktpreobuka.schoollogtwo.util.UserMapper;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private TeacherStudentRepository teacherStudentRepo;
 	@Autowired
 	private ParentRepository parentRepository;
 	@Autowired
@@ -49,6 +56,8 @@ public class StudentServiceImpl implements StudentService {
 	StudentSubjectRepository studentSubjectRepository;
 	@Autowired
 	private MarkRepository markRepository;
+	@Autowired
+	private UserMapper mapper;
 
 	private MarkResDTO markToDTO(MarkEntity mark) {
 		MarkResDTO markDto = new MarkResDTO();
@@ -207,6 +216,30 @@ public class StudentServiceImpl implements StudentService {
 		}
 
 		return Optional.ofNullable(null);
+	}
+
+	@Override
+	public List<UserDTO> getStudentsByGrade(Integer grade) {
+		List<StudentEntity> students = studentRepository.findByGradeValue(grade);
+		List<UserDTO> studentDTOs = new ArrayList<>();
+		if(grade != 0) {
+			studentDTOs = students.stream().map(mapper::mapToUserDTO).toList();
+		}
+		return studentDTOs;
+	}
+
+	@Override
+	public List<UserDTO> getStudentsByTeacher(Integer teacherId) {
+		List<TeacherStudentEntity> students = teacherStudentRepo.findByTeacherId(teacherId);
+		return students.stream()
+				.map(s -> s.getStudent())
+				.map(mapper::mapToUserDTO).toList();
+	}
+
+	@Override
+	public List<UserDTO> getAllStudents() {
+		List<StudentEntity> students = (List<StudentEntity>) studentRepository.findAll();
+		return students.stream().map(mapper::mapToUserDTO).toList();
 	}
 
 }

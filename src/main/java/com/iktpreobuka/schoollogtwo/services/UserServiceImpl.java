@@ -12,11 +12,14 @@ import com.iktpreobuka.schoollogtwo.entities.ParentEntity;
 import com.iktpreobuka.schoollogtwo.entities.ParentStudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.StudentEntity;
 import com.iktpreobuka.schoollogtwo.entities.TeacherEntity;
+import com.iktpreobuka.schoollogtwo.entities.TeacherSubjectEntity;
 import com.iktpreobuka.schoollogtwo.entities.UserEntity;
 import com.iktpreobuka.schoollogtwo.entities.dto.ParentDTO;
+import com.iktpreobuka.schoollogtwo.entities.dto.SubjectDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.TeacherDTO;
 import com.iktpreobuka.schoollogtwo.entities.dto.UserDTO;
 import com.iktpreobuka.schoollogtwo.repositories.StudentRepository;
+import com.iktpreobuka.schoollogtwo.repositories.SubjectRepository;
 import com.iktpreobuka.schoollogtwo.repositories.UserRepository;
 import com.iktpreobuka.schoollogtwo.util.UserMapper;
 
@@ -27,6 +30,8 @@ public class UserServiceImpl implements UserService {
 	private UserMapper mapper;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SubjectRepository subjectRepository;
 	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
@@ -50,6 +55,17 @@ public class UserServiceImpl implements UserService {
 				students.add(ps);
 			}
 			((ParentEntity)user).setStudents(students);
+		}
+		if (newUser instanceof TeacherDTO) {
+			List<TeacherSubjectEntity> subjects = ((TeacherDTO)newUser).getSubjects().stream()
+					.map( s -> {
+						TeacherSubjectEntity ts = new TeacherSubjectEntity();
+						ts.setTeacher((TeacherEntity)user);
+						ts.setSubject(subjectRepository.findById(s.getId()).orElseThrow());
+						return ts;
+					})
+					.toList();
+			((TeacherEntity)user).setSubjects(subjects);
 		}
 		
 		userRepository.save(user);

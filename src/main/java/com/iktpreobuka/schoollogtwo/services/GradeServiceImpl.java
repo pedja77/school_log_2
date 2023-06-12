@@ -1,5 +1,8 @@
 package com.iktpreobuka.schoollogtwo.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +38,18 @@ public class GradeServiceImpl implements GradeService {
 		GradeEntity grade = gradeRepository.findById(id).orElseThrow();
 		gradeRepository.delete(grade);
 		return grade;
+	}
+
+	@Override
+	public List<GradeDTO> getAll() {
+		List<GradeEntity> grades = (List<GradeEntity>) gradeRepository.findAll();
+		List<GradeDTO> dtos = new ArrayList<>();
+		for(GradeEntity grade : grades) {
+			GradeDTO g = new GradeDTO();
+			g.setId(grade.getId());
+			g.setValue(grade.getValue());
+			dtos.add(g);
+		}
+		return dtos;
 	}
 }

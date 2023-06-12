@@ -36,7 +36,7 @@ public class SubjectController {
 	
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
-	@Secured({"ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
 	@GetMapping
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> getAllSubjects(Principal p) {
@@ -47,19 +47,31 @@ public class SubjectController {
 		return new ResponseEntity<>(subjectService.getAllSubjectDTOs(), HttpStatus.OK);
 	}
 	
-	@Secured({"ROLE_ADMIN"})
-	@GetMapping(path = "/search")
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+	@GetMapping(path="/teacher/{teacherId}")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<?> getAllSubjectsFiltered(@RequestParam String query, Principal p) {
+	public ResponseEntity<?> getSubjectsByTeacher(@PathVariable Integer teacherId, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
 		
-		return new ResponseEntity<>(subjectService.getAllSubjectDTOsFiltered(query), HttpStatus.OK);
+		return new ResponseEntity<>(subjectService.getSubjectsByTeacher(teacherId), HttpStatus.OK);
 	}
 	
-	@Secured({"ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+	@GetMapping(path = "/search")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<?> getAllSubjectsFiltered(@RequestParam String query, @RequestParam Integer grade, Principal p) {
+		String methodName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		logger.info(String.format("[%s] Requested by %s", methodName, p.getName()));
+		
+		return new ResponseEntity<>(subjectService.getAllSubjectDTOsFiltered(query, grade), HttpStatus.OK);
+	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
 	@GetMapping(path = "/{id}")
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> getSubjectById(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
@@ -71,6 +83,7 @@ public class SubjectController {
 
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> createSubject(@Valid @RequestBody SubjectDTO newSubject, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
@@ -81,6 +94,7 @@ public class SubjectController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PutMapping(path = "/{id}")
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> updateSubject(@PathVariable Integer id, @Valid @RequestBody SubjectDTO updatedSubject, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();
@@ -91,6 +105,7 @@ public class SubjectController {
 	
 	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping(path = "/{id}")
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<?> deleteSubject(@PathVariable Integer id, Principal p) {
 		String methodName = new Object() {
 		}.getClass().getEnclosingMethod().getName();

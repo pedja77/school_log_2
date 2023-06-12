@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,9 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "teacher_subject")
-@SQLDelete(sql = "UPDATE teacher_subject SET deleted = true WHERE id=? AND version=?")
+@SQLDelete(sql = "UPDATE teacher_subject SET deleted = true WHERE id=?")
 @Where(clause = "deleted = false")
 public class TeacherSubjectEntity {
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
