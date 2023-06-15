@@ -20,6 +20,10 @@ enkriptovanjem passworda, reseno je ali je hacky i stvorilo je problem sa prezen
  
  ## Pokretanje aplikacije
  
+ Pre importovanja projekta u IDE u korenu projekta izvršiti 
+ 
+    mvn package 	
+ 
  Ukoliko se prilikom pokretanja servera dobije greška (da nije moguće pronaći UserMapper...), potrebno je uraditi maven clean i maven install nad   pom.xml da se generiše fajl UserMapperImpl.java u target/generated-sources/annotations/com/iktpreobuka/schoollogtwo/util.
  
  U korenu repozitorijuma se nalazi skripta import.sql za popunjavanje baze ako je spring.jpa.hibernate.ddl-auto=create u application.properties fajlu. Skriptu je potrebno kopirati u src/main/resources ako vec ne postoji ili je izvrsiti samostalno, npr. u mysqlWorkbenchu.
